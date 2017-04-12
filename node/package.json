@@ -1,0 +1,15 @@
+{
+  "name": "cis197finalproject",
+  "version": "1.0.0",
+  "description": "messenger Bot for roommate management",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vamsee01/CIS197FinalProject/"
+  },
+  "author": "Vamsee Mupparapu",
+  "license": "MIT"
+}
