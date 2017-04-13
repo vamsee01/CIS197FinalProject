@@ -25,7 +25,7 @@ app.get('/', function (req, res) {
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
-	if (if (req.query['hub.mode'] === 'subscribe' &&
+	if (if req.query['hub.mode'] === 'subscribe' &&
 		req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
 		res.send(req.query['hub.challenge'])
 	}
