@@ -4,7 +4,7 @@
   "description": "messenger Bot for roommate management",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
