@@ -24,7 +24,8 @@ app.use(bodyParser.json())
 
 // Index route
 app.get('/', function (req, res) {
-	res.send('Hello world, I am a chat bot')
+	res.send('Server for the \'Messenger bot for Roommate Management by Vamsee Mupparapu\' \n'
+		+ 'Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot')
 })
 
 // for Facebook verification
@@ -41,9 +42,10 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
+	    let name = event.sender.name
 	    if (event.message && event.message.text) {
 		    let text = event.message.text
-		    sendTextMessage(sender, "Hi " + sender + "! Text received, echo: " + text.substring(0, 200))
+		    sendTextMessage(sender, "Hi " + name + "! Message received, echo: " + text.substring(0, 200))
 	    }
     }
     res.sendStatus(200)
