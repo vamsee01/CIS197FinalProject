@@ -24,8 +24,8 @@ app.use(bodyParser.json())
 
 // Index route
 app.get('/', function (req, res) {
-	res.send('Server for the \'Messenger bot for Roommate Management by Vamsee Mupparapu\''
-		+ '\n Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot')
+	res.send('Server for the \'Messenger bot for Roommate Management by Vamsee Mupparapu\'.'
+		+ '\n Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot.')
 })
 
 // for Facebook verification
