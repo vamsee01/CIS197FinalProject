@@ -24,8 +24,8 @@ app.use(bodyParser.json())
 
 // Index route
 app.get('/', function (req, res) {
-	res.send('Server for the \'Messenger bot for Roommate Management by Vamsee Mupparapu\' \n'
-		+ 'Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot')
+	res.send('Server for the \'Messenger bot for Roommate Management by Vamsee Mupparapu\''
+		+ '\n Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot')
 })
 
 // for Facebook verification
@@ -42,10 +42,9 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
-	    let name = event.sender.name
 	    if (event.message && event.message.text) {
 		    let text = event.message.text
-		    sendTextMessage(sender, "Hi " + name + "! Message received, echo: " + text.substring(0, 200))
+		    sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
 	    }
     }
     res.sendStatus(200)
@@ -72,6 +71,18 @@ function sendTextMessage(sender, text) {
 		}
 	})
 }
+
+// getUserName = function(response, convo) {
+// var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + response.user + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + process.env.page_token;
+// request({
+//     url: usersPublicProfile,
+//     json: true // parse
+// }, function (error, response, body) {
+//         if (!error && response.statusCode === 200) {
+//             convo.say('Hi ' + body.first_name);
+//         }
+//     });
+// };
 
 // Spin up the server
 app.listen(app.get('port'), function() {
