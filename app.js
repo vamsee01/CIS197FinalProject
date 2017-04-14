@@ -1,14 +1,18 @@
 'use strict'
 
+//var vs const
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-const config = require('config')
-const crypto = require('crypto')
-const https = require('https')
 
 
-var app = express()
+//const config = require('config') //?
+//const crypto = require('crypto') //?
+//const https = require('https') //?
+//const cookieSession = require('cookie-session') //?
+
+const app = express()
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -39,7 +43,7 @@ app.post('/webhook/', function (req, res) {
 	    let sender = event.sender.id
 	    if (event.message && event.message.text) {
 		    let text = event.message.text
-		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+		    sendTextMessage(sender, "Hi " + sender + "! Text received, echo: " + text.substring(0, 200))
 	    }
     }
     res.sendStatus(200)
