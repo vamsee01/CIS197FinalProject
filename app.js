@@ -24,28 +24,28 @@ app.use(bodyParser.json())
 
 // Index route
 app.get('/', function (req, res) {
-	res.send('Server for the \'Messenger bot for Roommate Management by Vamsee Mupparapu\'.'
-		+ '\n Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot.')
+  res.send('Server for the \'Messenger bot for Roommate Management by Vamsee Mupparapu\'.'
+    + '\n Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot.')
 })
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
-	if (req.query['hub.mode'] === 'subscribe' &&
-		req.query['hub.verify_token'] === process.env.HUB_VERIFY_TOKEN) {
-		res.send(req.query['hub.challenge'])
-	}
-	res.send('Error, wrong token')
+  if (req.query['hub.mode'] === 'subscribe' &&
+    req.query['hub.verify_token'] === process.env.HUB_VERIFY_TOKEN) {
+    res.send(req.query['hub.challenge'])
+  }
+  res.send('Error, wrong token')
 })
 
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
-	    let event = req.body.entry[0].messaging[i]
-	    let sender = event.sender.id
-	    if (event.message && event.message.text) {
-		    let text = event.message.text
-		    sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
-	    }
+     let event = req.body.entry[0].messaging[i]
+      let sender = event.sender.id
+      if (event.message && event.message.text) {
+        let text = event.message.text
+       sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+      }
     }
     res.sendStatus(200)
 })
@@ -53,23 +53,23 @@ app.post('/webhook/', function (req, res) {
 const token = process.env.FB_PAGE_ACCESS_TOKEN
 
 function sendTextMessage(sender, text) {
-	let messageData = { text:text }
-	
-	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: {access_token:token},
-		method: 'POST',
-		json: {
-			recipient: {id:sender},
-			message: messageData,
-		}
-	}, function(error, response, body) {
-		if (error) {
-			console.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error)
-		}
-	})
+  let messageData = { text:text }
+
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log('Error sending messages: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    }
+  })
 }
 
 // getUserName = function(response, convo) {
@@ -86,6 +86,6 @@ function sendTextMessage(sender, text) {
 
 // Spin up the server
 app.listen(app.get('port'), function() {
-	console.log('running on port', app.get('port'))
+  console.log('running on port', app.get('port'))
 })
 
