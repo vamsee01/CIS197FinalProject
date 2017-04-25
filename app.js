@@ -7,7 +7,6 @@ const app = express()
 
 //const Groups = require('./database')
 var marker = 0
-var profile
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -54,6 +53,12 @@ app.post('/webhook/', function (req, res) {
             marker = 4
           } else if (payload === 'group_information') {
             marker = 5
+          } else if (payload === 'yes') {
+            sendTextMessage(sender, 'wants to leave group')
+            marker = 0
+          } else if (payload === 'no') {
+            sendTextMessage(sender, 'doesnt want to leave group')
+            marker = 0
           }
         } else {
           if (marker === 0) {
@@ -62,12 +67,16 @@ app.post('/webhook/', function (req, res) {
             sendTextMessage(sender, 'Desired Group Name: ' + text)
             //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
           } else if (marker === 2) {
-            //sendTextMessage(sender, 'Are you sure you want to leave your group?')
+            sendTextMessageQR(sender)
           } else if (marker === 3) {
 
           } else if (marker === 4) {
 
           } else if (marker === 5) {
+
+          } else if (marker === 6) {
+
+          } else if (marker === 7) {
 
           }
         }
@@ -99,13 +108,10 @@ function sendTextMessage (sender, text) {
 }
 
 function sendTextMessageQR (sender) {
-  //check if sender is in database or not
-  var textData
-  var quickRepliesData
-  if (marker === 2) {
-    textData = 'Are you sure you want to leave your group?'
-    quickRepliesData = 
-    [
+
+  let textData = 'Are you sure you want to leave your group?'
+  let quickRepliesData =  
+  [
     {
       content_type: 'text',
       title: 'Yes',
@@ -116,8 +122,28 @@ function sendTextMessageQR (sender) {
       title: 'No',
       payload: 'no',
     }
-    ]
-  } else {
+  ]
+
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: {text:textData, quick_replies:quickRepliesData},
+    }
+  }, function (error, response, body) {
+    if (error) {
+      console.log('Error sending message: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    }
+  })
+}
+
+function firstMessageQR (sender, profile) {
+  //check if sender is in database or not
+
   // let textData = 'Hi ' + profile.first_name + ', '
   // + 'You are currently in ... . Please select an option.'
   // let quickRepliesData =  
@@ -139,22 +165,26 @@ function sendTextMessageQR (sender) {
   //   }
   // ]
 
-    textData = 'Hi ' + profile.first_name + ', '
-    + 'You are currently not in a group. Please select an option.'
-    quickRepliesData =  
-    [
-      {
-        content_type: 'text',
-        title: 'Join existing group',
-        payload: 'join_group',
-      },
-      {
-        content_type: 'text',
-        title: 'Create new group',
-        payload: 'new_group',
-      }
-    ]
-  }
+  let textData = 'Hi ' + profile.first_name + ', '
+  + 'You are currently not in a group. Please select an option.'
+  let quickRepliesData =  
+  [
+    {
+      content_type: 'text',
+      title: 'Join existing group',
+      payload: 'join_group',
+    },
+    {
+      content_type: 'text',
+      title: 'Create new group',
+      payload: 'new_group',
+    },
+    {
+      content_type: 'text',
+      title: 'Leave group',
+      payload: 'leave_group'
+    }
+  ]
 
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -193,8 +223,7 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      profile = body
-      sendTextMessageQR(sender)
+      firstMessageQR(sender, body)
     }
   })
 }
