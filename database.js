@@ -5,29 +5,31 @@ mongoose.connect('mongodb://localhost/newDb');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 
-var roommateSchema = new Schema({
-  id: {type: Number, required: true, unique: true},
-  chores: {type: [String]},
-  dues: {type: [String]},
-  obligations: {type: [String]},
-});
+// var roommateSchema = new Schema({
+//   id: {type: Number, required: true, unique: true},
+//   chores: {type: [String]},
+//   dues: {type: [String]},
+//   obligations: {type: [String]},
+// });
+
+// roommateSchema.pre('save', function (next) {
+//   var roommate = this;
+//   roommate.chores = [];
+//   roommate.dues = [];
+//   roommate.obligations = [];
+//   next();
+// });
 
 var groupSchema = new Schema({
   name: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  roommates: [roommateSchema]
-});
-
-roommateSchema.pre('save', function (next) {
-  var roommate = this;
-  roommate.chores = [];
-  roommate.dues = [];
-  roommate.obligations = [];
-  next();
+  roommates: {type: [Number]}
 });
 
 groupSchema.pre('save', function (next) {
   var group = this;
+
+  if (!group.isModified('password')) return next();
 
   bcrypt.genSalt(10, function( err, salt) {
     if (err) return next (err);
@@ -42,21 +44,18 @@ groupSchema.pre('save', function (next) {
 
 groupSchema.statics.addGroup = function (name, password, userId, cb) {
   //check if 'name' is unique
-  var newGroup = new this({name: name, password: password, roommates: [{id: userId}]});
+  var newGroup = new this({name: name, password: password, roommates: [userId]});
   newGroup.save(cb);
 }
 
-// groupSchema.statics.addUsertoGroup = function (name, user, password, cb) {
-//   //check if (inputted) password matches group's password
-//   this.findOne({ name: name }, function(err, group) {
-//     if (!group) cb('no group');
-//     else {
-//       bcrypt.compare(password, group.password, function(err, isRight) {
-//         if (err) return cb(err);
-//         cb(null, isRight);
-//       });
-//     };
-//   });
-// }
+groupSchema.statics.containsUser = function (userId, cb) {
+  var group = this.find().elemMatch('roommates', userId);
+  if (!group) {
+    cb('error');
+  } else {
+    console.log(group.name);
+    cb(group.name);
+  }
+}
 
-//module.exports = mongoose.model('RoomateGroups', groupSchema);
+module.exports = mongoose.model('RoomateGroups', groupSchema);

@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
+//const Groups = require('./database')
+
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -41,6 +43,12 @@ app.post('/webhook/', function (req, res) {
       } else if (event.postback && event.postback.payload) {
         //Handle a payload from this sender
         payload = event.postback.payload;
+
+        if (payload === 'join_group') {
+          //sendTextMessage(sender, '')
+        } else if (payload === 'new_group') {
+          sendTextMessage(sender, 'Please type the name of your roommate group')
+        }
       }
     }
     res.sendStatus(200)
@@ -70,6 +78,28 @@ function sendTextMessage (sender, text) {
 
 function sendTextMessageQR (sender, profile) {
   //check if sender is in database or not
+
+  // let textData = 'Hi ' + profile.first_name + ', '
+  // + 'You are currently in ... . Please select an option.'
+  // let quickRepliesData =  
+  // [
+  //   {
+  //     content_type: 'text',
+  //     title: 'Add or Remove Roommmate Obligations',
+  //     payload: 'group_obligations',
+  //   },
+  //   {
+  //     content_type: 'text',
+  //     title: 'Check Group Information',
+  //     payload: 'group_information',
+  //   },
+  //   {
+  //     content_type: 'text',
+  //     title: 'Leave group',
+  //     payload: 'leave_group'
+  //   }
+  // ]
+
   let textData = 'Hi ' + profile.first_name + ', '
   + 'You are currently not in a group. Please select an option.'
   let quickRepliesData =  
