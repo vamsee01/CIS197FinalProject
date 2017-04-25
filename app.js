@@ -68,9 +68,10 @@ function sendTextMessage (sender, text) {
   })
 }
 
-function sendTextMessageQR (sender, information) {
+function sendTextMessageQR (sender, profile) {
   //check if sender is in database or not
-  let textData = 'You are currently not in a group. Please select an option.'
+  let textData = 'Hi ' + profile.first_name + ', '
+  + 'You are currently not in a group. Please select an option.'
   let quickRepliesData =  
   [
     {
@@ -121,7 +122,6 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      //sendTextMessage(sender, 'Hi ' + body.first_name + ' ' + body.last_name)
       sendTextMessageQR(sender, body)
     }
   })
