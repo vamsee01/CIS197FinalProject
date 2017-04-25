@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
-//const Groups = require('./database')
+var Groups = require('./database')
 var marker = 0
 
 app.set('port', (process.env.PORT || 5000))
@@ -37,9 +37,11 @@ app.post('/webhook/', function (req, res) {
      let event = req.body.entry[0].messaging[i]
       let sender = event.sender.id
       if (event.message && event.message.text) {
+
         //Handle a text message from this sender
         let text = event.message.text
         if (event.message.quick_reply) {
+          //Handle a quick reply selection
           let payload = event.message.quick_reply.payload
 
           if (payload === 'new_group') {
@@ -49,24 +51,36 @@ app.post('/webhook/', function (req, res) {
             //marker = 2
             sendTextMessageQR(sender)
           } else if (payload === 'join_group') {
-            marker = 3
+            //marker = 3
           } else if (payload === 'group_obligations') {
-            marker = 4
+            //marker = 4
           } else if (payload === 'group_information') {
-            marker = 5
+            //marker = 5
           } else if (payload === 'yes') {
-            sendTextMessage(sender, 'wants to leave group')
-            marker = 0
+            //sendTextMessage(sender, 'wants to leave group')
+            //marker = 0
           } else if (payload === 'no') {
-            sendTextMessage(sender, 'doesnt want to leave group')
-            marker = 0
+            //sendTextMessage(sender, 'doesnt want to leave group')
+            //marker = 0
           }
         } else {
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
             sendTextMessage(sender, 'Desired Group Name: ' + text)
-            //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+            let groupName = text
+            Groups.containsGroup(groupName, function (error, contains) {
+              if (error) {
+                console.log('Error in database call: ', error)
+              } else  if (contains) {
+                sendTextMessage(sender, '' + contains)
+              }
+            })
+            //check if group name exists in the database
+            //if group is in database ask for a different group name
+            //otherwise ask for group password 
+            //(your roommates will need to use this password to join this group)
+            //ask for password
           }
         }
       }
@@ -97,7 +111,6 @@ function sendTextMessage (sender, text) {
 }
 
 function sendTextMessageQR (sender) {
-
   let textData = 'Are you sure you want to leave your group?'
   let quickRepliesData =  
   [
@@ -167,11 +180,6 @@ function firstMessageQR (sender, profile) {
       content_type: 'text',
       title: 'Create new group',
       payload: 'new_group',
-    },
-    {
-      content_type: 'text',
-      title: 'Leave group',
-      payload: 'leave_group'
     }
   ]
 

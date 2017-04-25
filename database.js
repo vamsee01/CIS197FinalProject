@@ -42,20 +42,29 @@ groupSchema.pre('save', function (next) {
   });
 });
 
-groupSchema.statics.addGroup = function (name, password, userId, cb) {
-  //check if 'name' is unique
-  var newGroup = new this({name: name, password: password, roommates: [userId]});
+groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
+  var newGroup = new this({name: groupName, password: password, roommates: [userId]});
   newGroup.save(cb);
 }
 
-groupSchema.statics.containsUser = function (userId, cb) {
-  var group = this.find().elemMatch('roommates', userId);
-  if (!group) {
-    cb('error');
-  } else {
-    console.log(group.name);
-    cb(group.name);
-  }
+groupSchema.statics.containsGroup = function (groupName, cb) {
+  this.findOne({name: groupName}, function (err, group) {
+    if (!group) {
+      cb(null, false);
+    } else {
+      cb(null, true);
+    }
+  })
 }
+
+// groupSchema.statics.containsUser = function (userId, cb) {
+//   var group = this.find().elemMatch('roommates', userId);
+//   if (!group) {
+//     cb('error');
+//   } else {
+//     console.log(group.name);
+//     cb(group.name);
+//   }
+// }
 
 module.exports = mongoose.model('RoomateGroups', groupSchema);
