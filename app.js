@@ -71,25 +71,24 @@ function sendTextMessage (sender, text) {
 function sendTextMessageQR (sender, information) {
   //check if sender is in database or not
   let textData = 'You are currently not in a group. Please select an option.'
-  //let quickRepliesData = 
+  let quickRepliesData =  [
+        {
+          content_type: 'text',
+          title: 'Join existing group',
+          payload: 'join_group',
+        },
+        {
+          content_type: 'text',
+          title: 'Create new group',
+          payload: 'new_group',
+        }]
+        
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
     json: {
       recipient: {id: sender},
-      message: {text: textData, 
-        quick_replies: [
-        {
-          content_type: 'text',
-          title: 'Join existing group'
-          payload: 'join_group'
-        },
-        {
-          content_type: 'text',
-          title: 'Create new group'
-          payload: 'new_group'
-        }]
-      },
+      message: {text: textData, quick_replies: quickRepliesData},
     }
   }, function (error, response, body) {
     if (error) {
