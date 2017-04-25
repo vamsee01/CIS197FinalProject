@@ -84,7 +84,6 @@ function sendTextMessageQR (sender, information) {
       payload: 'new_group',
     }
   ]
-  sendTextMessage(sender, 'here');     
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
@@ -122,7 +121,7 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      sendTextMessage(sender, 'Hi ' + body.first_name + ' ' + body.last_name)
+      //sendTextMessage(sender, 'Hi ' + body.first_name + ' ' + body.last_name)
       sendTextMessageQR(sender, body)
     }
   })
