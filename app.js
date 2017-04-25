@@ -36,7 +36,7 @@ app.post('/webhook/', function (req, res) {
       if (event.message && event.message.text) {
         let text = event.message.text
         getInformation(sender)
-        sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+        //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
       }
     }
     res.sendStatus(200)
@@ -64,10 +64,19 @@ function sendTextMessage (sender, text) {
   })
 }
 
+/*
+ * First name: body.first_name
+ * Last name: body.last_name
+ * Profile Picture: body.profile_pic
+ * Locale: body.locale
+ * Timezone: body.timezone
+ * Gender: body.gender
+ */
+
 function getInformation (sender) {
-  let usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
+  let profile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
   request({
-    url: usersPublicProfile,
+    url: profile,
     json: true //parse
   }, function(error, response, body) {
     if (error) {
@@ -75,23 +84,10 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      console.log('First Name: ' + body.first_name + ', Last Name: ' + body.last_name)
-      sendTextMessage(sender, 'Hi ' + body.first_name)
+      sendTextMessage(sender, 'Hi ' + body.first_name + body.last_name)
     }
   })
 }
-
-// getUserName = function(response, convo) {
-// var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + response.user + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + process.env.page_token;
-// request({
-//     url: usersPublicProfile,
-//     json: true // parse
-// }, function (error, response, body) {
-//         if (!error && response.statusCode === 200) {
-//             convo.say('Hi ' + body.first_name);
-//         }
-//     });
-// };
 
 // Spin up the server
 app.listen(app.get('port'), function() {
