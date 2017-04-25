@@ -46,7 +46,8 @@ app.post('/webhook/', function (req, res) {
             marker = 1
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
           } else if (payload === 'leave_group') {
-            marker = 2
+            //marker = 2
+            sendTextMessageQR(sender)
           } else if (payload === 'join_group') {
             marker = 3
           } else if (payload === 'group_obligations') {
@@ -66,18 +67,6 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 1) {
             sendTextMessage(sender, 'Desired Group Name: ' + text)
             //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
-          } else if (marker === 2) {
-            sendTextMessageQR(sender)
-          } else if (marker === 3) {
-
-          } else if (marker === 4) {
-
-          } else if (marker === 5) {
-
-          } else if (marker === 6) {
-
-          } else if (marker === 7) {
-
           }
         }
       }
