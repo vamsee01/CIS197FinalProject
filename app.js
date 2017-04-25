@@ -35,7 +35,8 @@ app.post('/webhook/', function (req, res) {
       let sender = event.sender.id
       if (event.message && event.message.text) {
         let text = event.message.text
-       sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+        getInformation(sender)
+        sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
       }
     }
     res.sendStatus(200)
@@ -63,7 +64,7 @@ function sendTextMessage(sender, text) {
   })
 }
 
-function getInformation = function(sender, text) {
+function getInformation = function(sender) {
   let usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
   request({
     url: usersPublicProfile,
@@ -74,8 +75,8 @@ function getInformation = function(sender, text) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      console.log('First Name: ' + body.first_name + ', Last Name: ' + body.last_name);
-      sendTextMessage(sender, 'Hi ' + body.first_name);
+      console.log('First Name: ' + body.first_name + ', Last Name: ' + body.last_name)
+      sendTextMessage(sender, 'Hi ' + body.first_name)
     }
   })
 }
