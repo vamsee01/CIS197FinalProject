@@ -34,9 +34,14 @@ app.post('/webhook/', function (req, res) {
      let event = req.body.entry[0].messaging[i]
       let sender = event.sender.id
       if (event.message && event.message.text) {
+        //Handle a text message from this sender
         let text = event.message.text
         getInformation(sender)
+
         //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+      } else if (event.postback && event.postback.payload) {
+        //Handle a payload from this sender
+        payload = event.postback.payload;
       }
     }
     res.sendStatus(200)
@@ -84,7 +89,7 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      sendTextMessage(sender, 'Hi ' + body.first_name + body.last_name)
+      sendTextMessage(sender, 'Hi ' + body.first_name + ' ' body.last_name)
     }
   })
 }
