@@ -41,9 +41,9 @@ app.post('/webhook/', function (req, res) {
         if (event.message.quick_reply) {
           let payload = event.message.quick_reply.payload
 
-          //if (payload === 'new_group') {
+          if (payload === 'new_group') {
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
-          //} 
+          } 
         } else {
           getInformation(sender)
           //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
