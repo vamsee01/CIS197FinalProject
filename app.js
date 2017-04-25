@@ -82,7 +82,7 @@ function sendTextMessageQR (sender, information) {
           title: 'Create new group',
           payload: 'new_group',
         }]
-        
+  sendTextMessage(sender, 'here');     
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
