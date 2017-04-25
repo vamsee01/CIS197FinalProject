@@ -37,7 +37,6 @@ app.post('/webhook/', function (req, res) {
         //Handle a text message from this sender
         let text = event.message.text
         getInformation(sender)
-
         //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
       } else if (event.postback && event.postback.payload) {
         //Handle a payload from this sender
