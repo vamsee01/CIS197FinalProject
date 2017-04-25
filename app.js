@@ -35,12 +35,7 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
      let event = req.body.entry[0].messaging[i]
       let sender = event.sender.id
-      if (event.message && event.message.text) {
-        //Handle a text message from this sender
-        let text = event.message.text
-        getInformation(sender)
-        //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
-      } else if (event.postback && event.postback.payload) {
+      if (event.postback && event.postback.payload) {
         //Handle a payload from this sender
         payload = event.postback.payload;
 
@@ -49,7 +44,12 @@ app.post('/webhook/', function (req, res) {
         } else if (payload === 'new_group') {
           sendTextMessage(sender, 'Please type the name of your roommate group')
         }
-      }
+      } else if (event.message && event.message.text) {
+        //Handle a text message from this sender
+        let text = event.message.text
+        getInformation(sender)
+        //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+      } 
     }
     res.sendStatus(200)
 })
