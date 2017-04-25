@@ -49,7 +49,7 @@ app.post('/webhook/', function (req, res) {
 const token = process.env.FB_PAGE_ACCESS_TOKEN
 
 function sendTextMessage (sender, text) {
-  let messageData = { text:text }
+  let messageData = {text:text}
 
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -61,7 +61,38 @@ function sendTextMessage (sender, text) {
     }
   }, function(error, response, body) {
     if (error) {
-      console.log('Error sending messages: ', error)
+      console.log('Error sending message: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    }
+  })
+}
+
+function sendTextMessageQR (sender, information) {
+  //check if sender is in database or not
+  let textData = 'You are currently not in a group. Please select an option.'
+  let quickRepliesData = [
+  {
+    content_type: 'text',
+    title: 'Join existing group'
+    payload: 'join_group'
+  },
+  {
+    content_type: 'text',
+    title: 'Create new group'
+    payload: 'new_group'
+  }
+  ]
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    json: {
+      recipient: {id: sender},
+      message: {text: textData, quick_replies: quickRepliesData},
+    }
+  }, function (error, response, body) {
+    if (error) {
+      console.log('Error sending message: ', error)
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     }
@@ -88,7 +119,8 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      sendTextMessage(sender, 'Hi ' + body.first_name + ' ' body.last_name)
+      sendTextMessage(sender, 'Hi ' + body.first_name + ' ' + body.last_name)
+      sendTextMessageQR(sender, body)
     }
   })
 }
