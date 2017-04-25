@@ -6,6 +6,7 @@ const request = require('request')
 const app = express()
 
 //const Groups = require('./database')
+var marker = 0
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -42,19 +43,23 @@ app.post('/webhook/', function (req, res) {
           let payload = event.message.quick_reply.payload
 
           if (payload === 'new_group') {
+            marker = 1
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
           } else if (payload === 'leave_group') {
-
+            marker = 2
           } else if (payload === 'join_group') {
-
+            marker = 3
           } else if (payload === 'group_obligations') {
-
+            marker = 4
           } else if (payload === 'group_information') {
-
+            marker = 5
           }
         } else {
-          getInformation(sender)
-          //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+          if (marker === 0) {
+            getInformation(sender)
+          } else if (marker === 1) {
+            sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+          } 
         }
       }
     }
