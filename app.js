@@ -70,8 +70,26 @@ function sendTextMessage (sender, text) {
 
 function sendTextMessageQR (sender, information) {
   //check if sender is in database or not
-  let textData = 'You are currently not in a group. Please select an option.'
-  let quickRepliesData =  [
+  // let textData = 'You are currently not in a group. Please select an option.'
+  // let quickRepliesData =  [
+  //       {
+  //         content_type: 'text',
+  //         title: 'Join existing group',
+  //         payload: 'join_group',
+  //       },
+  //       {
+  //         content_type: 'text',
+  //         title: 'Create new group',
+  //         payload: 'new_group',
+  //       }]
+  sendTextMessage(sender, 'here');     
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    json: {
+      recipient: {id:sender},
+      message: {text:'You are currently not in a group. Please select an option.', 
+      quick_replies:[
         {
           content_type: 'text',
           title: 'Join existing group',
@@ -82,13 +100,7 @@ function sendTextMessageQR (sender, information) {
           title: 'Create new group',
           payload: 'new_group',
         }]
-  sendTextMessage(sender, 'here');     
-  request({
-    url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token:token},
-    json: {
-      recipient: {id: sender},
-      message: {text: textData, quick_replies: quickRepliesData},
+      },
     }
   }, function (error, response, body) {
     if (error) {
