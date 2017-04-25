@@ -1,17 +1,8 @@
 'use strict'
 
-//var vs const
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-
-
-//const config = require('config') //?
-//const crypto = require('crypto') //?
-//const https = require('https') //?
-//const cookieSession = require('cookie-session') //?
-
 const app = express()
 
 app.set('port', (process.env.PORT || 5000))
@@ -68,6 +59,23 @@ function sendTextMessage(sender, text) {
       console.log('Error sending messages: ', error)
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
+    }
+  })
+}
+
+function getInformation = function(sender, text) {
+  let usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
+  request({
+    url: usersPublicProfile,
+    json: true //parse
+  }, function(error, response, body) {
+    if (error) {
+      console.log('Error obtaining profile information: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    } else {
+      console.log('First Name: ' + body.first_name + ', Last Name: ' + body.last_name);
+      sendTextMessage(sender, 'Hi ' + body.first_name);
     }
   })
 }
