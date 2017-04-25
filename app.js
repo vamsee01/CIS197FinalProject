@@ -38,12 +38,12 @@ app.post('/webhook/', function (req, res) {
       if (event.message && event.message.text) {
         //Handle a text message from this sender
         let text = event.message.text
-        if (event.postback && event.postback.payload) {
-          let payload = event.postback.payload
+        if (event.message.quick_reply) {
+          let payload = event.message.quick_reply.payload
 
-          if (payload === 'new_group') {
+          //if (payload === 'new_group') {
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
-          } 
+          //} 
         } else {
           getInformation(sender)
           //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
