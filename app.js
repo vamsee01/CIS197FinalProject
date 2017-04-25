@@ -43,22 +43,20 @@ app.post('/webhook/', function (req, res) {
 
           if (payload === 'new_group') {
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
-          } 
+          } else if (payload === 'leave_group') {
+
+          } else if (payload === 'join_group') {
+
+          } else if (payload === 'group_obligations') {
+
+          } else if (payload === 'group_information') {
+
+          }
         } else {
           getInformation(sender)
           //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
         }
-      } 
-      // else if (event.postback && event.postback.payload) {
-      //   //Handle a payload from this sender
-      //   payload = event.postback.payload;
-
-      //   if (payload === 'join_group') {
-      //     //sendTextMessage(sender, '')
-      //   } else if (payload === 'new_group') {
-      //     sendTextMessage(sender, 'Please type the name of your roommate group')
-      //   }
-      // }
+      }
     }
     res.sendStatus(200)
 })
