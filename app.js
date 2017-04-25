@@ -98,7 +98,7 @@ function sendTextMessage (sender, text) {
   })
 }
 
-function sendMessageQR (sender) {
+function sendTextMessageQR (sender) {
   //check if sender is in database or not
   var textData
   var quickRepliesData
@@ -183,9 +183,9 @@ function sendMessageQR (sender) {
  */
 
 function getInformation (sender) {
-  let profile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
+  let profileInformation = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
   request({
-    url: profile,
+    url: profileInformation,
     json: true //parse
   }, function(error, response, body) {
     if (error) {
@@ -194,7 +194,7 @@ function getInformation (sender) {
       console.log('Error: ', response.body.error)
     } else {
       profile = body
-      sendMessageQR(sender)
+      sendTextMessageQR(sender)
     }
   })
 }
