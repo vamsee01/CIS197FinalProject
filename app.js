@@ -44,7 +44,7 @@ app.post('/webhook/', function (req, res) {
 
 const token = process.env.FB_PAGE_ACCESS_TOKEN
 
-function sendTextMessage(sender, text) {
+function sendTextMessage (sender, text) {
   let messageData = { text:text }
 
   request({
@@ -64,7 +64,7 @@ function sendTextMessage(sender, text) {
   })
 }
 
-function getInformation = function(sender) {
+function getInformation (sender) {
   let usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
   request({
     url: usersPublicProfile,
