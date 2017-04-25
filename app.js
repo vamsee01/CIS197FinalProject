@@ -7,6 +7,7 @@ const app = express()
 
 //const Groups = require('./database')
 var marker = 0
+var profile
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -58,8 +59,17 @@ app.post('/webhook/', function (req, res) {
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
-            sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
-          } 
+            sendTextMessage(sender, 'Desired Group Name: ' + text)
+            //sendTextMessage(sender, "Message received, echo: " + text.substring(0, 200))
+          } else if (marker === 2) {
+            //sendTextMessage(sender, 'Are you sure you want to leave your group?')
+          } else if (marker === 3) {
+
+          } else if (marker === 4) {
+
+          } else if (marker === 5) {
+
+          }
         }
       }
     }
@@ -88,9 +98,26 @@ function sendTextMessage (sender, text) {
   })
 }
 
-function sendTextMessageQR (sender, profile) {
+function sendMessageQR (sender) {
   //check if sender is in database or not
-
+  var textData
+  var quickRepliesData
+  if (marker === 2) {
+    textData = 'Are you sure you want to leave your group?'
+    quickRepliesData = 
+    [
+    {
+      content_type: 'text',
+      title: 'Yes',
+      payload: 'yes',
+    },
+    {
+      content_type: 'text',
+      title: 'No',
+      payload: 'no',
+    }
+    ]
+  } else {
   // let textData = 'Hi ' + profile.first_name + ', '
   // + 'You are currently in ... . Please select an option.'
   // let quickRepliesData =  
@@ -112,21 +139,23 @@ function sendTextMessageQR (sender, profile) {
   //   }
   // ]
 
-  let textData = 'Hi ' + profile.first_name + ', '
-  + 'You are currently not in a group. Please select an option.'
-  let quickRepliesData =  
-  [
-    {
-      content_type: 'text',
-      title: 'Join existing group',
-      payload: 'join_group',
-    },
-    {
-      content_type: 'text',
-      title: 'Create new group',
-      payload: 'new_group',
-    }
-  ]
+    textData = 'Hi ' + profile.first_name + ', '
+    + 'You are currently not in a group. Please select an option.'
+    quickRepliesData =  
+    [
+      {
+        content_type: 'text',
+        title: 'Join existing group',
+        payload: 'join_group',
+      },
+      {
+        content_type: 'text',
+        title: 'Create new group',
+        payload: 'new_group',
+      }
+    ]
+  }
+
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
@@ -164,7 +193,8 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      sendTextMessageQR(sender, body)
+      profile = body
+      sendMessageQR(sender)
     }
   })
 }
