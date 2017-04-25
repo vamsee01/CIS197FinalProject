@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
-var Groups = require('./database')
+//var Groups = require('./database')
 var marker = 0
 
 app.set('port', (process.env.PORT || 5000))
@@ -69,13 +69,13 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 1) {
             sendTextMessage(sender, 'Desired Group Name: ' + text)
             let groupName = text
-            Groups.containsGroup(groupName, function (error, contains) {
-              if (error) {
-                console.log('Error in database call: ', error)
-              } else  if (contains) {
-                sendTextMessage(sender, '' + contains)
-              }
-            })
+            // Groups.containsGroup(groupName, function (error, contains) {
+            //   if (error) {
+            //     console.log('Error in database call: ', error)
+            //   } else if (contains) {
+            //     sendTextMessage(sender, '' + contains)
+            //   }
+            // })
             //check if group name exists in the database
             //if group is in database ask for a different group name
             //otherwise ask for group password 
