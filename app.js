@@ -125,7 +125,7 @@ app.post('/webhook/', function (req, res) {
               if (error) {
                 console.log(error)
               } else {
-                console.log('added user ' + sender + ' to groupName')
+                console.log('added user ' + sender + ' to ' + groupName + 'error is ' + error)
               }
             })
           }
