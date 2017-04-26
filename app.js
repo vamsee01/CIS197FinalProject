@@ -79,7 +79,7 @@ app.post('/webhook/', function (req, res) {
                 sendTextMessage(sender, 'Sorry! That group name is already taken. Please try a different group name.')
               } else {
                 sendTextMessage(sender, 'Please enter desired password.' + 
-                  'Your roommates will need both the group name and entered password to join this group.')
+                  ' Your roommates will need both the group name and entered password to join this group.')
                 marker = 2
               }
             })
