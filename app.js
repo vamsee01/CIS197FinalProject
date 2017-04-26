@@ -64,8 +64,8 @@ app.post('/webhook/', function (req, res) {
             //marker = 0
           }
         } else {
-          var groupName
-          var inputPassword
+          var groupName = ''
+          var inputPassword = ''
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
