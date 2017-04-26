@@ -181,6 +181,8 @@ function firstMessageQR (sender, profile) {
     }
   })
 
+  console.log('value of inDatabase is ' + inDatabase)
+  
   if (inDatabase) {
       textData = 'Hi ' + profile.first_name + ', '
       + 'You are currently in a group. Please select an option.'
@@ -219,7 +221,7 @@ function firstMessageQR (sender, profile) {
         }
       ]
   }
-  
+
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
