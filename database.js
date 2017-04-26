@@ -50,7 +50,6 @@ groupSchema.statics.containsUser = function (userId, cb) {
     if (error) {
       cb(error, null)
     } else if (!group.length) {
-      //group === {} || group === [] || group === null || !group || group === '' || group === undefined || 
       cb(null, false)
     } else {
       cb(null, true);
@@ -58,8 +57,30 @@ groupSchema.statics.containsUser = function (userId, cb) {
   })
 }
 
-//groupSchema.statics.addUser
+//groupSchema.statics.addUser = function (groupName, password, userId, cb) {
 
-//groupSchema.statics.removeUser
+//}
+
+// userSchema.statics.checkIfLegit = function(username, password, cb) {
+//   this.findOne({ username: username }, function(err, user) {
+//     if (!user) cb('no user');
+//     else {
+//       bcrypt.compare(password, user.password, function(err, isRight) {
+//         if (err) return cb(err);
+//         cb(null, isRight);
+//       });
+//     };
+//   });
+// }
+
+groupSchema.statics.removeUser = function (userId, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {'roommates.id': {userId}}}, function (error) {
+    if (error) {
+      cb(error)
+    } else {
+      cb(null)
+    }
+  })
+}
 
 module.exports = mongoose.model('RoomateGroups', groupSchema);

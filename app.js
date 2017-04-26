@@ -53,7 +53,14 @@ app.post('/webhook/', function (req, res) {
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
             marker = 1
           } else if (payload === 'leave_group') {
-            sendTextMessageQR(sender)
+            //sendTextMessageQR(sender)
+            Groups.removeUser(sender, function (error) {
+              if (error) {
+                console.log('Error removing user his group: ', error)
+              } else {
+                console.log('Successfully removed ' + sender + ' from his group')
+              }
+            })
           } else if (payload === 'join_group') {
             //marker = 3
           } else if (payload === 'group_obligations') {
