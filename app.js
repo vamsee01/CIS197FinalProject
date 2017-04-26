@@ -95,13 +95,13 @@ app.post('/webhook/', function (req, res) {
             console.log('event.message.text is ' + text)
             inputPassword = text
             console.log('password is' + inputPassword)
-            Groups.addGroup(groupName, inputPassword, sender, function (error) {
-              if (error) {
-                console.log('Error adding group to database: ', error)
-              } else {
-                sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
-              }
-            })
+            // Groups.addGroup(groupName, inputPassword, sender, function (error) {
+            //   if (error) {
+            //     console.log('Error adding group to database: ', error)
+            //   } else {
+            //     sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
+            //   }
+            // })
           }
         }
       }
