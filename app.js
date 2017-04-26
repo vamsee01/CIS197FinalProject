@@ -8,8 +8,8 @@ const app = express()
 const Groups = require('./database')
 
 let marker = 0
-let groupName
-let inputPassword
+const groupName
+const inputPassword
 
 app.set('port', (process.env.PORT || 5000))
 
