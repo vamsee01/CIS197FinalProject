@@ -7,7 +7,7 @@ const app = express()
 
 const Groups = require('./database')
 
-var marker = 0
+let marker = 0
 let groupName
 let inputPassword
 
@@ -73,9 +73,7 @@ app.post('/webhook/', function (req, res) {
             console.log('group name is ' + groupName)
             console.log('g text is ' + text)
             console.log('g event.message.text is ' + event.message.text)
-            sendTextMessage(sender, 'Desired Group Name: ' + text)
-            
-            // sendTextMessage(sender, 'Desired Group Name: ' + groupName)
+            sendTextMessage(sender, 'Desired Group Name: ' + groupName)
 
             // sendTextMessage(sender, 'Please enter your desired password')
             // marker = 2
