@@ -47,8 +47,8 @@ app.post('/webhook/', function (req, res) {
           let payload = event.message.quick_reply.payload
 
           if (payload === 'new_group') {
-            marker = 1
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
+            marker = 1
           } else if (payload === 'leave_group') {
             //marker = 2
             sendTextMessageQR(sender)
@@ -69,11 +69,11 @@ app.post('/webhook/', function (req, res) {
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
-            marker = 2
-            groupName = text.slice()
+            groupName = text
             console.log('group name is ' + groupName)
             console.log('text is ' + text)
-            sendTextMessage(sender, 'Desired Group Name: ' + groupName + '. Please enter your desired password:')
+            marker = 2
+            sendTextMessage(sender, 'Please enter intended password')
             console.log('groupName is now ' + groupName)
             //
             //check if group name exists in the database
