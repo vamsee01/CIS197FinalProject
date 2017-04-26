@@ -8,8 +8,8 @@ const app = express()
 const Groups = require('./database')
 
 let marker = 0
-const groupName
-const inputPassword
+let groupName
+let inputPassword
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -69,7 +69,7 @@ app.post('/webhook/', function (req, res) {
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
-            groupName = text
+            groupName = text.slice()
             console.log('group name is ' + groupName)
             console.log('text is ' + text)
             sendTextMessage(sender, 'Desired Group Name: ' + groupName + '. Please enter your desired password:')
