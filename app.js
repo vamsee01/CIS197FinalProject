@@ -119,18 +119,36 @@ app.post('/webhook/', function (req, res) {
             })
           } else if (marker === 4 && recipient === BOT_ID) {
             inputPassword = text
-            //console.log('group name is ' + groupName)
-            //console.log('password is ' + inputPassword)
-            Groups.addUser(groupName, inputPassword, sender, function (error) {
+            Groups.checkPassword(groupName, inputPassword, function (error, isRight) {
               if (error) {
-                console.log(error)
+                console.log('Error checking password in database: ', error)
+              } else if (!isRight) {
                 sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
               } else {
-                sendTextMessage(sender, 'Successfully added you to the ' + groupName + ' group!')
-                marker = 0
-                getInformation(sender)
+                Groups.addUser(groupName, sender, function () {
+                  if (error) {
+                    console.log('Error adding user to database: ', error)
+                    sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
+                  } else {
+                    sendTextMessage(sender, 'Successfully added you to the ' + groupName + ' group!')
+                    marker = 0
+                    getInformation(sender)
+                  }
+                })
               }
             })
+            //console.log('group name is ' + groupName)
+            //console.log('password is ' + inputPassword)
+            // Groups.addUser(groupName, inputPassword, sender, function (error) {
+            //   if (error) {
+            //     console.log(error)
+            //     sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
+            //   } else {
+            //     sendTextMessage(sender, 'Successfully added you to the ' + groupName + ' group!')
+            //     marker = 0
+            //     getInformation(sender)
+            //   }
+            // })
           }
         }
       }

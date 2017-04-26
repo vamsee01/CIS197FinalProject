@@ -57,29 +57,29 @@ groupSchema.statics.containsUser = function (userId, cb) {
   })
 }
 
-groupSchema.statics.addUser = function (groupName, password, userId, cb) {
-  this.findOne({name: groupName}, function (error, group) {
+groupSchema.statics.addUser = function (groupName, userId, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$push: {roommates: {id: userId}}}, function (error) {
     if (error) {
-      cb(error);
+      cb(error)
     } else {
-      bcrypt.compare(password, group.password, function (error, isRight) {
-        if (error) {
-          cb(error);
-        } else if (isRight){
-          addUserHelper(groupName, userId, cb)
-          //fix this... atm will always update regardless if correct password or not
-        }
-      })
+      cb(null)
     }
   })
 }
 
-function addUserHelper (groupName, userId, cb) {
-  this.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
-    if(error) {
-        cb(error)
+
+groupSchema.statics.checkPassword = function (groupName, password, cb) {
+  this.findOne({name: groupName}, function (error, group) {
+    if (error) {
+      cb(error, null);
     } else {
-        cb(null)
+      bcrypt.compare(password, group.password, function (error, isRight) {
+        if (error) {
+          cb(error, null);
+        } else {
+          return (null, isRight)
+        }
+      })
     }
   })
 }
