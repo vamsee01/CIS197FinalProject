@@ -69,7 +69,7 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 1) {
             sendTextMessage(sender, 'Desired Group Name: ' + text)
             sendTextMessage(sender, 'Please enter your desired password')
-            marker = 2
+            //marker = 2
             // let groupName = text
             // Groups.containsGroup(groupName, function (error, contains) {
             //   if (error) {
@@ -85,13 +85,13 @@ app.post('/webhook/', function (req, res) {
             //(your roommates will need to use this password to join this group)
             //ask for password
           } else if (marker === 2) {
-            Groups.addGroup(groupName, inputPassword, sender, function (error) {
-              if (error) {
-                console.log('Error adding group to database: ', error)
-              } else {
-                sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
-              }
-            })
+            // Groups.addGroup(groupName, inputPassword, sender, function (error) {
+            //   if (error) {
+            //     console.log('Error adding group to database: ', error)
+            //   } else {
+            //     sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
+            //   }
+            // })
           }
         }
       }
