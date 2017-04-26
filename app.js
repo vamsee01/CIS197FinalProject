@@ -71,6 +71,7 @@ app.post('/webhook/', function (req, res) {
             let groupName = text
             Groups.containsGroup(groupName, function (error, contains) {
               if (error) {
+                sendTextMessage(sender, 'here')
                 console.log('Error in database call: ', error)
               } else if (contains) {
                 sendTextMessage(sender, 'Group exists? - ' + contains)
