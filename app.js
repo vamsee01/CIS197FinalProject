@@ -53,7 +53,6 @@ app.post('/webhook/', function (req, res) {
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
             marker = 1
           } else if (payload === 'leave_group') {
-            //marker = 2
             sendTextMessageQR(sender)
           } else if (payload === 'join_group') {
             //marker = 3
@@ -71,36 +70,35 @@ app.post('/webhook/', function (req, res) {
         } else {
           if (marker === 0) {
             getInformation(sender)
-          } else if (marker === 1) {
-            //make ^ && recipient === BOT_ID
-            if (recipient === BOT_ID) {
-              groupName = text
-              Groups.containsGroup(groupName, function(error, isInDatabase) {
-                if (error) {
-                  console.log('Error searching for group in database: ', error)
-                } else if (isInDatabase) {
-                  sendTextMessage(sender, 'Sorry! That group name is already taken. Please try a different group name.')
-                } else {
-                  sendTextMessage(sender, 'Please enter desired password. Your roommates will need this to join this group.')
-                  marker = 2
-                }
-              })
-            }
-          } else if (marker === 2) {
-            //make ^ && recipient === BOT_ID
-            if (recipient === BOT_ID) {
-              inputPassword = text
-              console.log('password is ' + inputPassword)
-              Groups.addGroup(groupName, inputPassword, sender, function (error) {
-                if (error) {
-                  console.log('Error adding group to database: ', error)
-                } else {
-                  sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
-                }
-              })
-              //firstMessageQR
-              //marker = ???
-            }
+          } else if (marker === 1 && recipient === BOT_ID) {
+            //if (recipient === BOT_ID) {
+            groupName = text
+            Groups.containsGroup(groupName, function(error, isInDatabase) {
+              if (error) {
+                console.log('Error searching for group in database: ', error)
+              } else if (isInDatabase) {
+                sendTextMessage(sender, 'Sorry! That group name is already taken. Please try a different group name.')
+              } else {
+                sendTextMessage(sender, 'Please enter desired password.' + 
+                  'Your roommates will need both the group name and entered password to join this group.')
+                marker = 2
+              }
+            })
+            //}
+          } else if (marker === 2 && recipient === BOT_ID) {
+            //if (recipient === BOT_ID) {
+            inputPassword = text
+            console.log('group name is ' + groupName)
+            console.log('password is ' + inputPassword)
+            Groups.addGroup(groupName, inputPassword, sender, function (error) {
+              if (error) {
+                console.log('Error adding group to database: ', error)
+              } else {
+                sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
+              }
+            })
+            marker = 0
+            //}
           }
         }
       }
