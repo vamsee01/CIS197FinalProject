@@ -71,10 +71,9 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 1) {
             groupName = text
             console.log('group name is ' + groupName)
-            console.log('g text is ' + text)
-            console.log('g event.message.text is ' + event.message.text)
-            sendTextMessage(sender, 'Desired Group Name: ' + groupName +'. Please enter your desired password:')
-            marker = 2
+            console.log('text is ' + text)
+            sendTextMessage(sender, 'Desired Group Name: ' + groupName + '. Please enter your desired password:')
+            //marker = 2
             //check if group name exists in the database
             //if group is in database ask for a different group name
             //otherwise ask for group password 
