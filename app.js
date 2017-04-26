@@ -55,7 +55,8 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'leave_group') {
             yesNoQR(sender)
           } else if (payload === 'join_group') {
-            //marker = 3
+            sendTextMessage(sender, 'Please type the name of group you want to join')
+            marker = 3
           } else if (payload === 'group_obligations') {
             //marker = 4
           } else if (payload === 'group_information') {
@@ -102,6 +103,29 @@ app.post('/webhook/', function (req, res) {
                 sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
                 marker = 0
                 getInformation(sender)
+              }
+            })
+          } else if (marker === 3 && recipient === BOT_ID) {
+            groupName = text
+            Groups.containsGroup(groupName, function(error, isInDatabase) {
+              if (error) {
+                console.log('Error searching for group in database: ', error)
+              } else if (isInDatabase) {
+                sendTextMessage(sender, 'Please enter the group-specific password.')
+                marker = 4
+              } else {
+                sendTextMessage(sender, 'There is no group with that name. Please try again.')
+              }
+            })
+          } else if (marker === 4 && recipient === BOT_ID) {
+            inputPassword = text
+            console.log('group name is ' + groupName)
+            console.log('password is ' + inputPassword)
+            Groups.addUser(groupName, inputPassword, sender, function (error) {
+              if (error) {
+                console.log(error)
+              } else {
+                console.log('added user ' + sender + ' to groupName')
               }
             })
           }

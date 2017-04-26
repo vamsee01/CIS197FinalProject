@@ -57,9 +57,29 @@ groupSchema.statics.containsUser = function (userId, cb) {
   })
 }
 
-//groupSchema.statics.addUser = function (groupName, password, userId, cb) {
+groupSchema.statics.addUser = function (groupName, password, userId, cb) {
+  this.findOne({name: groupName}, function (error, group) {
+    if (error) {
+      cb(error)
+    } else {
+      bcrypt.compare(password, group.password, function (error) {
+        if (error) {
+          cb(error)
+        } else {
+          group.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
+            if(error) {
+              cb(error, null)
+            } else {
+              cb(null)
+            }
+          })
+        }
+      })
+    }
+  })
+}
 
-//}
+//removeGroup function... 
 
 // userSchema.statics.checkIfLegit = function(username, password, cb) {
 //   this.findOne({ username: username }, function(err, user) {
