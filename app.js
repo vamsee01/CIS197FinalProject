@@ -11,6 +11,8 @@ let marker = 0
 let groupName
 let inputPassword
 
+const BOT_ID = 792706144218311
+
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -39,6 +41,7 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
      let event = req.body.entry[0].messaging[i]
       let sender = event.sender.id
+      let recipient = event.recipient.id
       if (event.message && event.message.text) {
         //Handle a text message from this sender
         let text = event.message.text
@@ -47,8 +50,8 @@ app.post('/webhook/', function (req, res) {
           let payload = event.message.quick_reply.payload
 
           if (payload === 'new_group') {
-            marker = 1
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
+            marker = 1
           } else if (payload === 'leave_group') {
             //marker = 2
             sendTextMessageQR(sender)
@@ -69,13 +72,15 @@ app.post('/webhook/', function (req, res) {
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
-            groupName = text
-            console.log('recipient is ' + event.recipient.id)
-            console.log('sender is ' + event.sender.id)
-            console.log('group name is ' + groupName)
-            sendTextMessage(sender, 'Please enter intended password')
-            console.log('groupName is now ' + groupName)
-            marker = 2
+            if (recipient === BOT_ID) {
+              //sender !== BOT_ID
+              groupName = text.splice()
+              console.log('group name is ' + groupName)
+            }
+              sendTextMessage(sender, 'Please enter intended password')
+              console.log('groupName is now ' + groupName)
+              marker = 2
+
             //
             //check if group name exists in the database
             //if group is in database ask for a different group name
@@ -83,7 +88,7 @@ app.post('/webhook/', function (req, res) {
             //(your roommates will need to use this password to join this group)
             //ask for password
           } else if (marker === 2) {
-
+            //console.log(groupName)
             console.log('p text is ' + text)
             console.log('p event.message.text is ' + text)
             inputPassword = text
@@ -234,7 +239,6 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      console.log('interacting with ' + sender)
       firstMessageQR(sender, body)
     }
   })
