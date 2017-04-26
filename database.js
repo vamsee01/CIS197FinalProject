@@ -67,7 +67,7 @@ groupSchema.statics.addUser = function (groupName, password, userId, cb) {
           cb(error);
         } else if (!isRight){
           cb(error);
-          //return;
+          return;
         }
       })
     }
