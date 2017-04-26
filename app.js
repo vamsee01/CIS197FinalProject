@@ -76,12 +76,9 @@ app.post('/webhook/', function (req, res) {
               //sender !== BOT_ID
               groupName = text.splice()
               console.log('group name is ' + groupName)
-            }
               sendTextMessage(sender, 'Please enter intended password')
-              console.log('groupName is now ' + groupName)
               marker = 2
-
-            //
+            }
             //check if group name exists in the database
             //if group is in database ask for a different group name
             //otherwise ask for group password 
