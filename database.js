@@ -74,7 +74,7 @@ groupSchema.statics.containsUser = function (userId, cb) {
 // }
 
 groupSchema.statics.removeUser = function (userId, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {'roommates.id': {userId}}}, function (error) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {'id': {userId}}}, function (error) {
     if (error) {
       cb(error)
     } else {
