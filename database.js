@@ -77,7 +77,7 @@ groupSchema.statics.checkPassword = function (groupName, password, cb) {
         if (error) {
           cb(error, null);
         } else {
-          return (null, isRight)
+          cb(null, isRight);
         }
       })
     }
