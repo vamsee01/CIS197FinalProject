@@ -181,6 +181,7 @@ function checkUserID (sender, firstName) {
       console.log('Error searching for group in database: ', error)
     } else if (isInDatabase) {
       console.log(sender + ' is in database')
+      console.log('isInDatabase = ' + isInDatabase)
       let textData = 'Hi ' + firstName + ', '
       + 'You are currently in a group. Please select an option.'
       let quickRepliesData =  
@@ -204,6 +205,7 @@ function checkUserID (sender, firstName) {
       firstMessageQR(sender, textData, quickRepliesData)
     } else {
       console.log(sender + ' not in database')
+      console.log('isInDatabase = ' + isInDatabase)
       let textData = 'Hi ' + firstName + ', '
       + 'You are currently not in a group. Please select an option.'
       let quickRepliesData =  
