@@ -74,10 +74,10 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 1) {
             if (recipient === BOT_ID) {
               groupName = text
-              Groups.containsGroup(groupName, function(error, isUnique) {
+              Groups.containsGroup(groupName, function(error, isInDatabase) {
                 if (error) {
                   console.log('Error searching for group in database: ', error)
-                } else if (!isUnique) {
+                } else if (isInDatabase) {
                   sendTextMessage(sender, 'Sorry! That group name is already taken. Please try a different group name.')
                 } else {
                   sendTextMessage(sender, 'Please enter desired password. Your roommates will need this to join this group.')
