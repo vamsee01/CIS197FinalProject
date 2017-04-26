@@ -48,8 +48,8 @@ app.post('/webhook/', function (req, res) {
           let payload = event.message.quick_reply.payload
 
           if (payload === 'new_group') {
-            marker = 1
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
+            marker = 1
           } else if (payload === 'leave_group') {
             //marker = 2
             sendTextMessageQR(sender)
@@ -94,7 +94,7 @@ app.post('/webhook/', function (req, res) {
             console.log('text is ' + text)
             console.log('event.message.text is ' + text)
             inputPassword = text
-            console.log('password is' + inputPassword)
+            console.log('password is ' + inputPassword)
             // Groups.addGroup(groupName, inputPassword, sender, function (error) {
             //   if (error) {
             //     console.log('Error adding group to database: ', error)
