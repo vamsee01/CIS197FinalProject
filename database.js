@@ -6,21 +6,6 @@ mongoose.connect(process.env.MONGODB_URI);
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 
-// var roommateSchema = new Schema({
-//   id: {type: Number, required: true, unique: true},
-//   chores: {type: [String]},
-//   dues: {type: [String]},
-//   obligations: {type: [String]},
-// });
-
-// roommateSchema.pre('save', function (next) {
-//   var roommate = this;
-//   roommate.chores = [];
-//   roommate.dues = [];
-//   roommate.obligations = [];
-//   next();
-// });
-
 var groupSchema = new Schema({
   name: {type: String, required: true, unique: true},
   password: {type: String, required: true},

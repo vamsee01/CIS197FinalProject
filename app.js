@@ -77,17 +77,19 @@ app.post('/webhook/', function (req, res) {
 
               //check if groupName is unique
               groupName = text
-              //console.log('group name is ' + groupName)
-              sendTextMessage(sender, 'Please enter desired password. Your roommates will need this to join this group.')
-              marker = 2
+              Groups.containsGroup(groupName, function(error, isUnique) {
+                if (isUnique) {
+                  console.log('Value is ' + isUnique)
+                }
+              })
+              //sendTextMessage(sender, 'Please enter desired password. Your roommates will need this to join this group.')
+              //marker = 2
             }
           } else if (marker === 2) {
             if (recipient === BOT_ID) {
-              console.log('groupName is ' + groupName)
-              //console.log('p text is ' + text)
-              //console.log('p event.message.text is ' + text)
+              //console.log('groupName is ' + groupName)
               inputPassword = text
-              console.log('password is ' + inputPassword)
+              //console.log('password is ' + inputPassword)
               Groups.addGroup(groupName, inputPassword, sender, function (error) {
                 if (error) {
                   console.log('Error adding group to database: ', error)
@@ -95,7 +97,8 @@ app.post('/webhook/', function (req, res) {
                   sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
                 }
               })
-
+              //firstMessageQR
+              //marker = ???
             }
           }
         }
