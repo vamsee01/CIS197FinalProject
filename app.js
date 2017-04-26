@@ -69,11 +69,12 @@ app.post('/webhook/', function (req, res) {
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
-            groupName = text
-            console.log('g text is ' + text)
-            console.log('g event.message.text is ' + text)
-            console.log('group name is ' + groupName)
-            sendTextMessage(sender, 'Desired Group Name: ' + groupName)
+            // console.log('g text is ' + text)
+            // console.log('g event.message.text is ' + text)
+            sendTextMessage(sender, 'Desired Group Name: ' + text)
+            // groupName = text
+            // console.log('group name is ' + groupName)
+            //sendTextMessage(sender, 'Desired Group Name: ' + groupName)
 
             // sendTextMessage(sender, 'Please enter your desired password')
             // marker = 2
