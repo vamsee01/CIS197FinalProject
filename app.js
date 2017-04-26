@@ -40,7 +40,6 @@ app.post('/webhook/', function (req, res) {
      let event = req.body.entry[0].messaging[i]
       let sender = event.sender.id
       if (event.message && event.message.text) {
-
         //Handle a text message from this sender
         let text = event.message.text
         if (event.message.quick_reply) {
@@ -49,7 +48,7 @@ app.post('/webhook/', function (req, res) {
 
           if (payload === 'new_group') {
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
-            
+            marker = 1
           } else if (payload === 'leave_group') {
             //marker = 2
             sendTextMessageQR(sender)
@@ -69,23 +68,22 @@ app.post('/webhook/', function (req, res) {
         } else {
           if (marker === 0) {
             getInformation(sender)
-            marker = 1
           } else if (marker === 1) {
-            //sendTextMessage(sender, 'Desired Group Name: ' + text)
-            console.log('text is ' + text)
-            console.log('event.message.text is ' + text)
+            sendTextMessage(sender, 'Desired Group Name: ' + text)
+            console.log('g text is ' + text)
+            console.log('g event.message.text is ' + text)
             groupName = text
             console.log('group name is ' + groupName)
-            sendTextMessage(sender, 'Please enter your desired password')
-            marker = 2
+            // sendTextMessage(sender, 'Please enter your desired password')
+            // marker = 2
             //check if group name exists in the database
             //if group is in database ask for a different group name
             //otherwise ask for group password 
             //(your roommates will need to use this password to join this group)
             //ask for password
           } else if (marker === 2) {
-            console.log('text is ' + text)
-            console.log('event.message.text is ' + text)
+            console.log('p text is ' + text)
+            console.log('p event.message.text is ' + text)
             inputPassword = text
             console.log('password is ' + inputPassword)
             // Groups.addGroup(groupName, inputPassword, sender, function (error) {
