@@ -5,10 +5,10 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
-var Groups = require('./database')
+const Groups = require('./database')
 var marker = 0
-var groupName = ''
-var inputPassword = ''
+var groupName
+var inputPassword
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -70,7 +70,7 @@ app.post('/webhook/', function (req, res) {
             getInformation(sender)
           } else if (marker === 1) {
             //sendTextMessage(sender, 'Desired Group Name: ' + text)
-            groupName = text
+            //groupName = text
             sendTextMessage(sender, 'Please enter your desired password')
             marker = 2
             // Groups.containsGroup(groupName, function (error, contains) {
@@ -87,7 +87,7 @@ app.post('/webhook/', function (req, res) {
             //(your roommates will need to use this password to join this group)
             //ask for password
           } else if (marker === 2) {
-            inputPassword = text
+            //inputPassword = text
             Groups.addGroup(groupName, inputPassword, sender, function (error) {
               if (error) {
                 console.log('Error adding group to database: ', error)
