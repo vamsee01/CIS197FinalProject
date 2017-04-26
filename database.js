@@ -34,8 +34,10 @@ groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
 }
 
 groupSchema.statics.containsGroup = function (groupName, cb) {
-  this.findOne({name: groupName}, function (err, group) {
-    if (!group) {
+  this.findOne({name: groupName}, function (error, group) {
+    if (error) {
+      cb(error, null)
+    } else if (!group) {
       cb(null, false);
     } else {
       cb(null, true);
@@ -43,14 +45,20 @@ groupSchema.statics.containsGroup = function (groupName, cb) {
   })
 }
 
-// groupSchema.statics.containsUser = function (userId, cb) {
-//   var group = this.find().elemMatch('roommates', userId);
-//   if (!group) {
-//     cb('error');
-//   } else {
-//     console.log(group.name);
-//     cb(group.name);
-//   }
-// }
+groupSchema.statics.containsUser = function (userId, cb) {
+  this.findOne({roommates: {$elemMatch: {userId}}}, function (error, group) {
+    if (error) {
+      cb(error, null)
+    } else if (!group) {
+      cb(null, false);
+    } else {
+      cb(null, true);
+    }
+  })
+}
+
+//groupSchema.statics.addUser
+
+//groupSchema.statics.removeUser
 
 module.exports = mongoose.model('RoomateGroups', groupSchema);

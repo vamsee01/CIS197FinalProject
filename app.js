@@ -72,6 +72,7 @@ app.post('/webhook/', function (req, res) {
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
+            //make ^ && recipient === BOT_ID
             if (recipient === BOT_ID) {
               groupName = text
               Groups.containsGroup(groupName, function(error, isInDatabase) {
@@ -86,10 +87,10 @@ app.post('/webhook/', function (req, res) {
               })
             }
           } else if (marker === 2) {
+            //make ^ && recipient === BOT_ID
             if (recipient === BOT_ID) {
-              //console.log('groupName is ' + groupName)
               inputPassword = text
-              //console.log('password is ' + inputPassword)
+              console.log('password is ' + inputPassword)
               Groups.addGroup(groupName, inputPassword, sender, function (error) {
                 if (error) {
                   console.log('Error adding group to database: ', error)
@@ -185,6 +186,16 @@ function firstMessageQR (sender, profile) {
   //     payload: 'leave_group'
   //   }
   // ]
+
+  Groups.containsUser(sender, function (error, isInDatabase) {
+    if (error) {
+      console.log('Error searching for group in database: ', error)
+    } else if (isInDatabase) {
+      console.log(sender + ' is in database')
+    } else {
+      console.log(sender + ' not in database')
+    }
+  })
 
   let textData = 'Hi ' + profile.first_name + ', '
   + 'You are currently not in a group. Please select an option.'
