@@ -36,7 +36,7 @@ groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
 groupSchema.statics.containsGroup = function (groupName, cb) {
   this.findOne({name: groupName}, function (error, group) {
     if (error) {
-      cb(error, null)
+      cb(error, null);
     } else if (!group) {
       cb(null, false);
     } else {
@@ -48,9 +48,9 @@ groupSchema.statics.containsGroup = function (groupName, cb) {
 groupSchema.statics.containsUser = function (userId, cb) {
   this.find({roommates: {$elemMatch: {id: userId}}}, function (error, group) {
     if (error) {
-      cb(error, null)
+      cb(error, null);
     } else if (!group.length) {
-      cb(null, false)
+      cb(null, false);
     } else {
       cb(null, true);
     }
@@ -60,15 +60,17 @@ groupSchema.statics.containsUser = function (userId, cb) {
 groupSchema.statics.addUser = function (groupName, password, userId, cb) {
   this.findOne({name: groupName}, function (error, group) {
     if (error) {
-      cb(error)
+      cb(error);
     } else {
       bcrypt.compare(password, group.password, function (error) {
         if (error) {
-          cb(error)
+          cb(error);
+          return;
         } 
       })
     }
   })
+  //fix this... atm will always update regardless if correct password or not
   this.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
     if(error) {
       cb(error)
