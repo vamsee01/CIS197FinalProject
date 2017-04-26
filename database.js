@@ -65,15 +65,16 @@ groupSchema.statics.addUser = function (groupName, password, userId, cb) {
       bcrypt.compare(password, group.password, function (error, isRight) {
         if (error) {
           cb(error);
-        } else if (!isRight){
-          cb(error);
-          return;
+        } else if (isRight){
+          addUserHelper(groupName, userId, cb)
+          //fix this... atm will always update regardless if correct password or not
         }
       })
     }
   })
+}
 
-  //fix this... atm will always update regardless if correct password or not
+addUserHelper = function (groupName, userId, cb) {
   this.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
     if(error) {
         cb(error)
