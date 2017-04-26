@@ -179,7 +179,7 @@ function checkUserID (sender, firstName) {
   Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
       console.log('Error searching for group in database: ', error)
-    } else if (isInDatabase && isInDatabase !== '') {
+    } else if (isInDatabase) {
       console.log(sender + ' is in database')
       console.log('isInDatabase = ' + isInDatabase)
       let textData = 'Hi ' + firstName + ', '

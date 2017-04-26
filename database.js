@@ -50,7 +50,7 @@ groupSchema.statics.containsUser = function (userId, cb) {
     if (error) {
       cb(error, null)
     } else if (group === {} || group === [] || group === null || !group || group === '' || group === undefined || !group.length) {
-      cb(null, false)
+      cb(null, group.length)
     } else {
       cb(null, group.length);
     }
