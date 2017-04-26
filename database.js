@@ -78,20 +78,6 @@ groupSchema.statics.addUser = function (groupName, password, userId, cb) {
   })
 }
 
-//removeGroup function... 
-
-// userSchema.statics.checkIfLegit = function(username, password, cb) {
-//   this.findOne({ username: username }, function(err, user) {
-//     if (!user) cb('no user');
-//     else {
-//       bcrypt.compare(password, user.password, function(err, isRight) {
-//         if (err) return cb(err);
-//         cb(null, isRight);
-//       });
-//     };
-//   });
-// }
-
 groupSchema.statics.removeUser = function (userId, cb) {
   this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {roommates: {$in : userId}}}, function (error) {
     if (error) {

@@ -94,8 +94,8 @@ app.post('/webhook/', function (req, res) {
             })
           } else if (marker === 2 && recipient === BOT_ID) { 
             inputPassword = text
-            console.log('group name is ' + groupName)
-            console.log('password is ' + inputPassword)
+            //console.log('group name is ' + groupName)
+            //console.log('password is ' + inputPassword)
             Groups.addGroup(groupName, inputPassword, sender, function (error) {
               if (error) {
                 console.log('Error adding group to database: ', error)
@@ -119,13 +119,16 @@ app.post('/webhook/', function (req, res) {
             })
           } else if (marker === 4 && recipient === BOT_ID) {
             inputPassword = text
-            console.log('group name is ' + groupName)
-            console.log('password is ' + inputPassword)
+            //console.log('group name is ' + groupName)
+            //console.log('password is ' + inputPassword)
             Groups.addUser(groupName, inputPassword, sender, function (error) {
               if (error) {
                 console.log(error)
+                sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
               } else {
-                console.log('added user ' + sender + ' to ' + groupName + ' error is ' + error)
+                sendTextMessage(sender, 'Successfully added you to the ' + groupName + ' group!')
+                marker = 0
+                getInformation(sender)
               }
             })
           }
