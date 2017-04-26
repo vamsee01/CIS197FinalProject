@@ -70,8 +70,7 @@ app.post('/webhook/', function (req, res) {
         } else {
           if (marker === 0) {
             getInformation(sender)
-          } else if (marker === 1) {
-            if (recipient === BOT_ID) {
+          } else if (marker === 1 && recipient === BOT_ID) {
             groupName = text
             Groups.containsGroup(groupName, function(error, isInDatabase) {
               if (error) {
@@ -84,9 +83,7 @@ app.post('/webhook/', function (req, res) {
                 marker = 2
               }
             })
-            }
-          } else if (marker === 2) { 
-            if (recipient === BOT_ID) {
+          } else if (marker === 2 && recipient === BOT_ID) { 
             inputPassword = text
             console.log('group name is ' + groupName)
             console.log('password is ' + inputPassword)
@@ -98,7 +95,6 @@ app.post('/webhook/', function (req, res) {
                 marker = 0
               }
             })
-            }
           }
         }
       }

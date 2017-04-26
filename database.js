@@ -37,12 +37,10 @@ groupSchema.statics.containsGroup = function (groupName, cb) {
   this.findOne({name: groupName}, function (error, group) {
     if (error) {
       cb(error, null)
-    } 
-    // else if (!group) {
-    //   cb(null, false);
-    // } 
-    else {
-      cb(null, group);
+    } else if (!group) {
+      cb(null, false);
+    } else {
+      cb(null, true);
     }
   })
 }
@@ -51,12 +49,10 @@ groupSchema.statics.containsUser = function (userId, cb) {
   this.find({roommates: {$elemMatch: {userId}}}, function (error, group) {
     if (error) {
       cb(error, null)
-    } 
-    // else if (!group) {
-    //   cb(null, false);
-    // } 
-    else {
-      cb(null, group);
+    } else if (!group.length) {
+      cb(null, false)
+    } else {
+      cb(null, true);
     }
   })
 }
