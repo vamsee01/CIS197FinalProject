@@ -67,10 +67,10 @@ app.post('/webhook/', function (req, res) {
               } else {
                 console.log('Successfully removed ' + sender + ' from his/her group')
                 sendTextMessage(sender, 'Successfully removed you from your roommate group. ...')
+                marker = 0
+                getInformation(sender)
               }
             })
-            marker = 0
-            getInformation(sender)
           } else if (payload === 'no') {
             marker = 0
             getInformation(sender)
