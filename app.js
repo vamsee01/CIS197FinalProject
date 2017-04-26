@@ -74,29 +74,29 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 1) {
             if (recipient === BOT_ID) {
               //sender !== BOT_ID
+
+              //check if groupName is unique
               groupName = text
-              console.log('group name is ' + groupName)
-              sendTextMessage(sender, 'enter password')
+              //console.log('group name is ' + groupName)
+              sendTextMessage(sender, 'Please enter desired password. Your roommates will need this to join this group.')
               marker = 2
             }
-            //check if group name exists in the database
-            //if group is in database ask for a different group name
-            //otherwise ask for group password 
-            //(your roommates will need to use this password to join this group)
-            //ask for password
           } else if (marker === 2) {
-            console.log('groupName is ' + groupName)
-            console.log('p text is ' + text)
-            console.log('p event.message.text is ' + text)
-            inputPassword = text
-            console.log('password is ' + inputPassword)
-            // Groups.addGroup(groupName, inputPassword, sender, function (error) {
-            //   if (error) {
-            //     console.log('Error adding group to database: ', error)
-            //   } else {
-            //     sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
-            //   }
-            // })
+            if (recipient === BOT_ID) {
+              console.log('groupName is ' + groupName)
+              //console.log('p text is ' + text)
+              //console.log('p event.message.text is ' + text)
+              inputPassword = text
+              console.log('password is ' + inputPassword)
+              Groups.addGroup(groupName, inputPassword, sender, function (error) {
+                if (error) {
+                  console.log('Error adding group to database: ', error)
+                } else {
+                  sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
+                }
+              })
+
+            }
           }
         }
       }
