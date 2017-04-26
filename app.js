@@ -75,7 +75,7 @@ app.post('/webhook/', function (req, res) {
             if (recipient === BOT_ID) {
 
               //sender !== BOT_ID
-              groupName = text.splice()
+              groupName = text
               console.log('group name is ' + groupName)
               marker = 2
             }
@@ -86,7 +86,7 @@ app.post('/webhook/', function (req, res) {
             //(your roommates will need to use this password to join this group)
             //ask for password
           } else if (marker === 2) {
-            //console.log(groupName)
+            console.log('groupName is ' + groupName)
             console.log('p text is ' + text)
             console.log('p event.message.text is ' + text)
             inputPassword = text
