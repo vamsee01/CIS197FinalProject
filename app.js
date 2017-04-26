@@ -11,7 +11,7 @@ let marker = 0
 let groupName
 let inputPassword
 
-const BOT_ID = 792706144218311
+const BOT_ID = '792706144218311'
 
 app.set('port', (process.env.PORT || 5000))
 
