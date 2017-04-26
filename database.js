@@ -49,10 +49,10 @@ groupSchema.statics.containsUser = function (userId, cb) {
   this.find({roommates: {$elemMatch: {userId}}}, function (error, group) {
     if (error) {
       cb(error, null)
-    } else if (group === {} || group === [] || group === null || !group || group === '' || group === undefined) {
+    } else if (group === {} || group === [] || group === null || !group || group === '' || group === undefined || !group.length) {
       cb(null, false)
     } else {
-      cb(null, group);
+      cb(null, group.length);
     }
   })
 }
