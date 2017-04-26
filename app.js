@@ -64,24 +64,38 @@ app.post('/webhook/', function (req, res) {
             //marker = 0
           }
         } else {
+          var groupName
+          var inputPassword
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
             sendTextMessage(sender, 'Desired Group Name: ' + text)
-            let groupName = text
-            Groups.containsGroup(groupName, function (error, contains) {
-              if (error) {
-                sendTextMessage(sender, 'here')
-                console.log('Error in database call: ', error)
-              } else if (contains) {
-                sendTextMessage(sender, 'Group exists? - ' + contains)
-              }
-            })
+            groupName = text
+            sendTextMessage(sender, 'Please enter your desired password')
+            marker = 2
+            // let groupName = text
+            // Groups.containsGroup(groupName, function (error, contains) {
+            //   if (error) {
+            //     sendTextMessage(sender, 'here')
+            //     console.log('Error in database call: ', error)
+            //   } else if (contains) {
+            //     sendTextMessage(sender, 'Group exists? - ' + contains)
+            //   }
+            // })
             //check if group name exists in the database
             //if group is in database ask for a different group name
             //otherwise ask for group password 
             //(your roommates will need to use this password to join this group)
             //ask for password
+          } else if (marker === 2) {
+            inputPassword = text
+            Groups.addGroup(groupName, inputPassword, sender, function (error) {
+              if (error) {
+                console.log('Error adding group to database: ', error)
+              } else {
+                sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
+              }
+            })
           }
         }
       }
