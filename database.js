@@ -66,7 +66,7 @@ groupSchema.statics.addUser = function (groupName, password, userId, cb) {
         if (error) {
           cb(error)
         } else {
-          group.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
+          group.update({name: groupName}, {$push: {roommates: {$each: [{id: userId}]}}}, function (error) {
             if(error) {
               cb(error, null)
             } else {
