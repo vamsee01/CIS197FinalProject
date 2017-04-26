@@ -1,7 +1,8 @@
 'use strict'
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/newDb');
+//mongoose.connect('mongodb://localhost/newDb');
+mongoose.connect(process.env.MONGODB_URI);
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 
