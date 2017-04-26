@@ -71,7 +71,6 @@ app.post('/webhook/', function (req, res) {
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1 && recipient === BOT_ID) {
-            //if (recipient === BOT_ID) {
             groupName = text
             Groups.containsGroup(groupName, function(error, isInDatabase) {
               if (error) {
@@ -84,9 +83,7 @@ app.post('/webhook/', function (req, res) {
                 marker = 2
               }
             })
-            //}
           } else if (marker === 2 && recipient === BOT_ID) {
-            //if (recipient === BOT_ID) {
             inputPassword = text
             console.log('group name is ' + groupName)
             console.log('password is ' + inputPassword)
@@ -95,10 +92,9 @@ app.post('/webhook/', function (req, res) {
                 console.log('Error adding group to database: ', error)
               } else {
                 sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
+                marker = 0
               }
             })
-            marker = 0
-            //}
           }
         }
       }
