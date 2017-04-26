@@ -71,7 +71,8 @@ app.post('/webhook/', function (req, res) {
             getInformation(sender)
           } else if (marker === 1) {
             //sendTextMessage(sender, 'Desired Group Name: ' + text)
-            
+            console.log('text is ' + text)
+            console.log('event.message.text is ' + text)
             groupName = text
             console.log('group name is ' + groupName)
             sendTextMessage(sender, 'Please enter your desired password')
@@ -90,7 +91,8 @@ app.post('/webhook/', function (req, res) {
             //(your roommates will need to use this password to join this group)
             //ask for password
           } else if (marker === 2) {
-            
+            console.log('text is ' + text)
+            console.log('event.message.text is ' + text)
             inputPassword = text
             console.log('password is' + inputPassword)
             Groups.addGroup(groupName, inputPassword, sender, function (error) {
