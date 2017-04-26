@@ -167,53 +167,59 @@ function firstMessageQR (sender, profile) {
   //check if sender is in database or not
   let textData
   let quickRepliesData
+  let inDatabase
 
-  Groups.containsUser(sender, function (error, groupName) {
+  Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
       console.log('Error searching for group in database: ', error)
-    } else if (groupName) {
+    } else if (isInDatabase) {
       console.log(sender + ' is in database')
-      console.log('group name is ' + groupName)
-      // let textData = 'Hi ' + profile.first_name + ', '
-      // + 'You are currently in ... . Please select an option.'
-      // let quickRepliesData =  
-      // [
-      //   {
-      //     content_type: 'text',
-      //     title: 'Add or Remove Roommmate Obligations',
-      //     payload: 'group_obligations',
-      //   },
-      //   {
-      //     content_type: 'text',
-      //     title: 'Check Group Information',
-      //     payload: 'group_information',
-      //   },
-      //   {
-      //     content_type: 'text',
-      //     title: 'Leave group',
-      //     payload: 'leave_group'
-      //   }
-      // ]
+      inDatabase = true
     } else {
       console.log(sender + ' not in database')
-      // textData = 'Hi ' + profile.first_name + ', '
-      // + 'You are currently not in a group. Please select an option.'
-      // quickRepliesData =  
-      // [
-      //   {
-      //     content_type: 'text',
-      //     title: 'Join existing group',
-      //     payload: 'join_group',
-      //   },
-      //   {
-      //     content_type: 'text',
-      //     title: 'Create new group',
-      //     payload: 'new_group',
-      //   }
-      // ]
+      inDatabase = false
     }
   })
 
+  if (inDatabase) {
+      textData = 'Hi ' + profile.first_name + ', '
+      + 'You are currently in a group. Please select an option.'
+      quickRepliesData =  
+      [
+        {
+          content_type: 'text',
+          title: 'Add or Remove Roommmate Obligations',
+          payload: 'group_obligations',
+        },
+        {
+          content_type: 'text',
+          title: 'Check Group Information',
+          payload: 'group_information',
+        },
+        {
+          content_type: 'text',
+          title: 'Leave group',
+          payload: 'leave_group'
+        }
+      ]
+  } else {
+      textData = 'Hi ' + profile.first_name + ', '
+      + 'You are currently not in a group. Please select an option.'
+      quickRepliesData =  
+      [
+        {
+          content_type: 'text',
+          title: 'Join existing group',
+          payload: 'join_group',
+        },
+        {
+          content_type: 'text',
+          title: 'Create new group',
+          payload: 'new_group',
+        }
+      ]
+  }
+  
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
