@@ -70,7 +70,8 @@ app.post('/webhook/', function (req, res) {
         } else {
           if (marker === 0) {
             getInformation(sender)
-          } else if (marker === 1 && recipient === BOT_ID) {
+          } else if (marker === 1) {
+            if (recipient === BOT_ID) {
             groupName = text
             Groups.containsGroup(groupName, function(error, isInDatabase) {
               if (error) {
@@ -83,7 +84,9 @@ app.post('/webhook/', function (req, res) {
                 marker = 2
               }
             })
-          } else if (marker === 2 && recipient === BOT_ID) {
+            }
+          } else if (marker === 2) { 
+            if (recipient === BOT_ID) {
             inputPassword = text
             console.log('group name is ' + groupName)
             console.log('password is ' + inputPassword)
@@ -95,6 +98,7 @@ app.post('/webhook/', function (req, res) {
                 marker = 0
               }
             })
+            }
           }
         }
       }
@@ -176,11 +180,11 @@ function firstMessageQR (sender, textData, quickRepliesData) {
 }
 
 function checkUserID (sender, firstName) {
-  Groups.containsUser(BOT_ID, function (error, isInDatabase) {
+  Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
       console.log('Error searching for group in database: ', error)
     } else if (isInDatabase) {
-      console.log(BOT_ID + ' is in database')
+      console.log(sender + ' is in database')
       console.log('isInDatabase = ' + isInDatabase)
       let textData = 'Hi ' + firstName + ', '
       + 'You are currently in a group. Please select an option.'
@@ -204,7 +208,7 @@ function checkUserID (sender, firstName) {
       ]
       firstMessageQR(sender, textData, quickRepliesData)
     } else {
-      console.log(BOT_ID + ' not in database')
+      console.log(sender + ' not in database')
       console.log('isInDatabase = ' + isInDatabase)
       let textData = 'Hi ' + firstName + ', '
       + 'You are currently not in a group. Please select an option.'
