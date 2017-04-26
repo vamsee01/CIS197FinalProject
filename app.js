@@ -64,13 +64,10 @@ app.post('/webhook/', function (req, res) {
             //marker = 0
           }
         } else {
-          var groupName = ''
-          var inputPassword = ''
           if (marker === 0) {
             getInformation(sender)
           } else if (marker === 1) {
             sendTextMessage(sender, 'Desired Group Name: ' + text)
-            groupName = text
             sendTextMessage(sender, 'Please enter your desired password')
             marker = 2
             // let groupName = text
@@ -88,7 +85,6 @@ app.post('/webhook/', function (req, res) {
             //(your roommates will need to use this password to join this group)
             //ask for password
           } else if (marker === 2) {
-            inputPassword = text
             Groups.addGroup(groupName, inputPassword, sender, function (error) {
               if (error) {
                 console.log('Error adding group to database: ', error)
