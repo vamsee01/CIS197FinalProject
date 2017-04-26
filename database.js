@@ -65,16 +65,15 @@ groupSchema.statics.addUser = function (groupName, password, userId, cb) {
       bcrypt.compare(password, group.password, function (error) {
         if (error) {
           cb(error)
-        } else {
-          this.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
-            if(error) {
-              cb(error, null)
-            } else {
-              cb(null)
-            }
-          })
-        }
+        } 
       })
+    }
+  })
+  this.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
+    if(error) {
+      cb(error)
+    } else {
+      cb(null)
     }
   })
 }
