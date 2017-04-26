@@ -168,48 +168,49 @@ function firstMessageQR (sender, profile) {
   let textData
   let quickRepliesData
 
-  Groups.containsUser(sender, function (error, isInDatabase) {
+  Groups.containsUser(sender, function (error, groupName) {
     if (error) {
       console.log('Error searching for group in database: ', error)
-    } else if (isInDatabase) {
+    } else if (groupName) {
       console.log(sender + ' is in database')
-      let textData = 'Hi ' + profile.first_name + ', '
-      + 'You are currently in ... . Please select an option.'
-      let quickRepliesData =  
-      [
-        {
-          content_type: 'text',
-          title: 'Add or Remove Roommmate Obligations',
-          payload: 'group_obligations',
-        },
-        {
-          content_type: 'text',
-          title: 'Check Group Information',
-          payload: 'group_information',
-        },
-        {
-          content_type: 'text',
-          title: 'Leave group',
-          payload: 'leave_group'
-        }
-      ]
+      console.log('group name is ' + groupName)
+      // let textData = 'Hi ' + profile.first_name + ', '
+      // + 'You are currently in ... . Please select an option.'
+      // let quickRepliesData =  
+      // [
+      //   {
+      //     content_type: 'text',
+      //     title: 'Add or Remove Roommmate Obligations',
+      //     payload: 'group_obligations',
+      //   },
+      //   {
+      //     content_type: 'text',
+      //     title: 'Check Group Information',
+      //     payload: 'group_information',
+      //   },
+      //   {
+      //     content_type: 'text',
+      //     title: 'Leave group',
+      //     payload: 'leave_group'
+      //   }
+      // ]
     } else {
       console.log(sender + ' not in database')
-      textData = 'Hi ' + profile.first_name + ', '
-      + 'You are currently not in a group. Please select an option.'
-      quickRepliesData =  
-      [
-        {
-          content_type: 'text',
-          title: 'Join existing group',
-          payload: 'join_group',
-        },
-        {
-          content_type: 'text',
-          title: 'Create new group',
-          payload: 'new_group',
-        }
-      ]
+      // textData = 'Hi ' + profile.first_name + ', '
+      // + 'You are currently not in a group. Please select an option.'
+      // quickRepliesData =  
+      // [
+      //   {
+      //     content_type: 'text',
+      //     title: 'Join existing group',
+      //     payload: 'join_group',
+      //   },
+      //   {
+      //     content_type: 'text',
+      //     title: 'Create new group',
+      //     payload: 'new_group',
+      //   }
+      // ]
     }
   })
 
