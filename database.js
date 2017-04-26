@@ -41,7 +41,7 @@ groupSchema.statics.containsGroup = function (groupName, cb) {
       cb(null, null);
     } else {
       //console.log('Contains group: group name is ' + group.name)
-      cb(null, group);
+      cb(null, this.name);
     }
   })
 }

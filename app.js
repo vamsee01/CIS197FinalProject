@@ -168,12 +168,12 @@ function firstMessageQR (sender, profile) {
   let textData
   let quickRepliesData
 
-  Groups.containsUser(sender, function (error, group) {
+  Groups.containsUser(sender, function (error, groupName) {
     if (error) {
       console.log('Error searching for group in database: ', error)
-    } else if (group) {
+    } else if (groupName) {
       console.log(sender + ' is in database')
-      console.log('group name is ' + group.name)
+      console.log('group name is ' + groupName)
       // let textData = 'Hi ' + profile.first_name + ', '
       // + 'You are currently in ... . Please select an option.'
       // let quickRepliesData =  
