@@ -129,16 +129,16 @@ app.post('/webhook/', function (req, res) {
                 sendTextMessage(sender, 'Invalid Password: could not add you to the group. Please try again.')
               } else {
                 console.log('isRight : ' + isRight)
-                // Groups.addUser(groupName, sender, function (err) {
-                //   if (err) {
-                //     console.log('Error adding user to database: ', err)
-                //     sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
-                //   } else {
-                //     sendTextMessage(sender, 'Successfully added you to the ' + groupName + ' group!')
-                //     marker = 0
-                //     getInformation(sender)
-                //   }
-                // })
+                Groups.addUser(groupName, sender, function (err) {
+                  if (err) {
+                    console.log('Error adding user to database: ', err)
+                    sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
+                  } else {
+                    sendTextMessage(sender, 'Successfully added you to the ' + groupName + ' group!')
+                    marker = 0
+                    getInformation(sender)
+                  }
+                })
               }
             })
           }
