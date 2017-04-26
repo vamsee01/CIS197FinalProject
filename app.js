@@ -119,12 +119,18 @@ app.post('/webhook/', function (req, res) {
             })
           } else if (marker === 4 && recipient === BOT_ID) {
             inputPassword = text
+            console.log('groupName is ' + groupName)
+            console.log('inputPassword is ' + inputPassword)
             Groups.checkPassword(groupName, inputPassword, function (error, isRight) {
               if (error) {
                 console.log('Error checking password in database: ', error)
               } else if (!isRight) {
+                console.log('here1')
+                console.log('isRight : ' + isRight)
                 sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
               } else {
+                console.log('here2')
+                console.log('isRight : ' + isRight)
                 Groups.addUser(groupName, sender, function () {
                   if (error) {
                     console.log('Error adding user to database: ', error)
