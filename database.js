@@ -58,7 +58,7 @@ groupSchema.statics.containsUser = function (userId, cb) {
 }
 
 groupSchema.statics.addUser = function (groupName, userId, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$addToSet: {roommates: {userId}}}, function (error) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$addToSet: {roommates: userId}}, function (error) {
     if (error) {
       cb(error)
     } else {
