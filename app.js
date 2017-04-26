@@ -6,6 +6,7 @@ const request = require('request')
 const app = express()
 
 const Groups = require('./database')
+
 var marker = 0
 var groupName
 var inputPassword
@@ -70,7 +71,9 @@ app.post('/webhook/', function (req, res) {
             getInformation(sender)
           } else if (marker === 1) {
             //sendTextMessage(sender, 'Desired Group Name: ' + text)
-            //groupName = text
+            
+            groupName = text
+            console.log('group name is ' + groupName)
             sendTextMessage(sender, 'Please enter your desired password')
             marker = 2
             // Groups.containsGroup(groupName, function (error, contains) {
@@ -87,7 +90,9 @@ app.post('/webhook/', function (req, res) {
             //(your roommates will need to use this password to join this group)
             //ask for password
           } else if (marker === 2) {
-            //inputPassword = text
+            
+            inputPassword = text
+            console.log('password is' + inputPassword)
             Groups.addGroup(groupName, inputPassword, sender, function (error) {
               if (error) {
                 console.log('Error adding group to database: ', error)
