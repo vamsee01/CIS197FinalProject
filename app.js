@@ -53,14 +53,7 @@ app.post('/webhook/', function (req, res) {
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
             marker = 1
           } else if (payload === 'leave_group') {
-            //sendTextMessageQR(sender)
-            Groups.removeUser(sender, function (error) {
-              if (error) {
-                console.log('Error removing user his group: ', error)
-              } else {
-                console.log('Successfully removed ' + sender + ' from his group')
-              }
-            })
+            yesNoQR(sender)
           } else if (payload === 'join_group') {
             //marker = 3
           } else if (payload === 'group_obligations') {
@@ -68,11 +61,19 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'group_information') {
             //marker = 5
           } else if (payload === 'yes') {
-            //sendTextMessage(sender, 'wants to leave group')
-            //marker = 0
+            Groups.removeUser(sender, function (error) {
+              if (error) {
+                console.log('Error removing user his group: ', error)
+              } else {
+                console.log('Successfully removed ' + sender + ' from his/her group')
+                sendTextMessage(sender, 'Successfully removed you from your roommate group. ...')
+              }
+            })
+            marker = 0
+            getInformation(sender)
           } else if (payload === 'no') {
-            //sendTextMessage(sender, 'doesnt want to leave group')
-            //marker = 0
+            marker = 0
+            getInformation(sender)
           }
         } else {
           if (marker === 0) {
@@ -132,7 +133,7 @@ function sendTextMessage (sender, text) {
   })
 }
 
-function sendTextMessageQR (sender) {
+function yesNoQR (sender) {
   let textData = 'Are you sure you want to leave your group?'
   let quickRepliesData =  
   [
