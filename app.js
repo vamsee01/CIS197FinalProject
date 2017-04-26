@@ -129,7 +129,7 @@ app.post('/webhook/', function (req, res) {
                 sendTextMessage(sender, 'Invalid Password: could not add you to the group. Please try again.')
               } else {
                 console.log('isRight : ' + isRight)
-                Groups.addUser(groupName, sender, function () {
+                Groups.addUser(groupName, sender, function (error) {
                   if (error) {
                     console.log('Error adding user to database: ', error)
                     sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
