@@ -73,17 +73,17 @@ app.post('/webhook/', function (req, res) {
             getInformation(sender)
           } else if (marker === 1) {
             if (recipient === BOT_ID) {
-              //sender !== BOT_ID
-
-              //check if groupName is unique
               groupName = text
               Groups.containsGroup(groupName, function(error, isUnique) {
-                if (isUnique) {
-                  console.log('Value is ' + isUnique)
+                if (error) {
+                  console.log('Error searching for group in database: ', error)
+                } else if (!isUnique) {
+                  sendTextMessage(sender, 'Sorry! That group name is already taken. Please try a different group name.')
+                } else {
+                  sendTextMessage(sender, 'Please enter desired password. Your roommates will need this to join this group.')
+                  marker = 2
                 }
               })
-              //sendTextMessage(sender, 'Please enter desired password. Your roommates will need this to join this group.')
-              //marker = 2
             }
           } else if (marker === 2) {
             if (recipient === BOT_ID) {
