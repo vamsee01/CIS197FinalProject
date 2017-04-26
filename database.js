@@ -58,7 +58,6 @@ groupSchema.statics.containsUser = function (userId, cb) {
 }
 
 groupSchema.statics.addUser = function (groupName, password, userId, cb) {
-  var bool;
   this.findOne({name: groupName}, function (error, group) {
     if (error) {
       cb(error);
@@ -66,23 +65,22 @@ groupSchema.statics.addUser = function (groupName, password, userId, cb) {
       bcrypt.compare(password, group.password, function (error, isRight) {
         if (error) {
           cb(error);
-        } else {
-          bool = isRight;
+        } else if (!isRight){
+          cb(error);
+          //return;
         }
       })
     }
   })
 
-  if (bool) {
-    //fix this... atm will always update regardless if correct password or not
-    this.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
-      if(error) {
+  //fix this... atm will always update regardless if correct password or not
+  this.update({name: groupName}, {$push: {roommates: {id: userId}}}, function (error) {
+    if(error) {
         cb(error)
-      } else {
+    } else {
         cb(null)
-      }
-    })
-  }
+    }
+  })
 }
 
 groupSchema.statics.removeUser = function (userId, cb) {
