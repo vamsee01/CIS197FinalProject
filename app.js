@@ -49,7 +49,7 @@ app.post('/webhook/', function (req, res) {
 
           if (payload === 'new_group') {
             sendTextMessage(sender, 'Please type the name of your desired roommate group')
-            marker = 1
+            
           } else if (payload === 'leave_group') {
             //marker = 2
             sendTextMessageQR(sender)
@@ -69,6 +69,7 @@ app.post('/webhook/', function (req, res) {
         } else {
           if (marker === 0) {
             getInformation(sender)
+            marker = 1
           } else if (marker === 1) {
             //sendTextMessage(sender, 'Desired Group Name: ' + text)
             console.log('text is ' + text)
@@ -77,14 +78,6 @@ app.post('/webhook/', function (req, res) {
             console.log('group name is ' + groupName)
             sendTextMessage(sender, 'Please enter your desired password')
             marker = 2
-            // Groups.containsGroup(groupName, function (error, contains) {
-            //   if (error) {
-            //     sendTextMessage(sender, 'here')
-            //     console.log('Error in database call: ', error)
-            //   } else if (contains) {
-            //     sendTextMessage(sender, 'Group exists? - ' + contains)
-            //   }
-            // })
             //check if group name exists in the database
             //if group is in database ask for a different group name
             //otherwise ask for group password 
