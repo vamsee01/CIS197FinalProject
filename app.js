@@ -163,30 +163,33 @@ function sendTextMessageQR (sender) {
   })
 }
 
-function firstMessageQR (sender, profile) {
-  //check if sender is in database or not
-  let textData
-  let quickRepliesData
-  let inDatabase
+function firstMessageQR (sender, textData, quickRepliesData) {
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: {text:textData, quick_replies:quickRepliesData},
+    }
+  }, function (error, response, body) {
+    if (error) {
+      console.log('Error sending message: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    }
+  })
+}
 
+function checkUserID (sender, firstName) {
   Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
       console.log('Error searching for group in database: ', error)
     } else if (isInDatabase) {
       console.log(sender + ' is in database')
-      inDatabase = true
-    } else {
-      console.log(sender + ' not in database')
-      inDatabase = false
-    }
-  })
-
-  console.log('value of inDatabase is ' + inDatabase)
-  
-  if (inDatabase) {
-      textData = 'Hi ' + profile.first_name + ', '
+      let textData = 'Hi ' + firstName + ', '
       + 'You are currently in a group. Please select an option.'
-      quickRepliesData =  
+      let quickRepliesData =  
       [
         {
           content_type: 'text',
@@ -204,10 +207,12 @@ function firstMessageQR (sender, profile) {
           payload: 'leave_group'
         }
       ]
-  } else {
-      textData = 'Hi ' + profile.first_name + ', '
+      firstMessageQR(sender, textData, quickRepliesData)
+    } else {
+      console.log(sender + ' not in database')
+      let textData = 'Hi ' + firstName + ', '
       + 'You are currently not in a group. Please select an option.'
-      quickRepliesData =  
+      let quickRepliesData =  
       [
         {
           content_type: 'text',
@@ -220,21 +225,7 @@ function firstMessageQR (sender, profile) {
           payload: 'new_group',
         }
       ]
-  }
-
-  request({
-    url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token:token},
-    method: 'POST',
-    json: {
-      recipient: {id:sender},
-      message: {text:textData, quick_replies:quickRepliesData},
-    }
-  }, function (error, response, body) {
-    if (error) {
-      console.log('Error sending message: ', error)
-    } else if (response.body.error) {
-      console.log('Error: ', response.body.error)
+      firstMessageQR(sender, textData, quickRepliesData)
     }
   })
 }
@@ -259,7 +250,7 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      firstMessageQR(sender, body)
+      checkUserID(sender, body.first_name)
     }
   })
 }
