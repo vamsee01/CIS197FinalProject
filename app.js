@@ -93,6 +93,7 @@ app.post('/webhook/', function (req, res) {
               } else {
                 sendTextMessage(sender, 'Successfully created and added you to the ' + groupName + ' group!')
                 marker = 0
+                getInformation(sender)
               }
             })
           }
