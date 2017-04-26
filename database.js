@@ -9,7 +9,7 @@ var bcrypt = require('bcrypt');
 var groupSchema = new Schema({
   name: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  roommates: [{id: Number}]
+  roommates: [{id: String}] //String
 });
 
 groupSchema.pre('save', function (next) {
@@ -58,7 +58,7 @@ groupSchema.statics.containsUser = function (userId, cb) {
 }
 
 groupSchema.statics.addUser = function (groupName, userId, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$addToSet: {roommates: userId}}, function (error) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$addToSet: {roommates: {id: userId}}}, function (error) {
     if (error) {
       cb(error)
     } else {
