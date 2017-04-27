@@ -65,6 +65,7 @@ app.post('/webhook/', function (req, res) {
                 console.log('Error getting group information: ', error)
               } else {
                 console.log('to String is ' + group.toString())
+                console.log('JSON object is ' + JSON.parse(group.toString()))
                 console.log('group is ' + group)
               }
             })
