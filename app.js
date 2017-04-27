@@ -155,8 +155,8 @@ function sendTextMessageBackQR (sender, textData) {
   let quickRepliesData = 
   [
     {
-      content_type: 'text'
-      title: 'Go back to main menu'
+      content_type: 'text',
+      title: 'Go back to main menu',
       payload: 'back'
     }
   ]
