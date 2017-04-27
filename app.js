@@ -252,7 +252,7 @@ function checkUserID (sender, firstName) {
         },
         {
           content_type: 'text',
-          title: 'Check Group Information',
+          title: 'Group Info',
           payload: 'group_information'
         },
         {
