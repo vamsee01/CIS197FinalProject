@@ -60,7 +60,7 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'group_obligations') {
             //marker = 4
           } else if (payload === 'group_information') {
-            Groups.getInformation(sender, function (error, group) {
+            Groups.getGroupInformation(sender, function (error, group) {
               if (error) {
                 console.log('Error getting group information:')
               } else {
