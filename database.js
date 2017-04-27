@@ -101,7 +101,6 @@ groupSchema.statics.getGroupInformation = function (userId, cb) {
     if (error) {
       cb(error, null)
     } else {
-      console.log('group name and roommates are ' + group.name + ' ' + group.roommates)
       cb(null, group)
     }
   })

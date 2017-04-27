@@ -62,9 +62,9 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'group_information') {
             Groups.getGroupInformation(sender, function (error, group) {
               if (error) {
-                console.log('Error getting group information:')
+                console.log('Error getting group information: ', error)
               } else {
-                console.log('group is ' + group)
+                console.log('group name is ' + group.name + 'group roommates are ' + group.roommates)
               }
             })
             //marker = 5
