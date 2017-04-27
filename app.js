@@ -247,7 +247,7 @@ function checkUserID (sender, firstName) {
       [
         {
           content_type: 'text',
-          title: 'Add / Remove Obligations',
+          title: 'Room Obligations',
           payload: 'group_obligations'
         },
         {
