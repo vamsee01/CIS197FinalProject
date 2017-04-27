@@ -50,12 +50,12 @@ app.post('/webhook/', function (req, res) {
           let payload = event.message.quick_reply.payload
 
           if (payload === 'new_group') {
-            sendTextMessage(sender, 'Please type the name of your desired roommate group')
+            sendTextMessageBackQR(sender, 'Please type the name of your desired roommate group')
             marker = 1
           } else if (payload === 'leave_group') {
             yesNoQR(sender)
           } else if (payload === 'join_group') {
-            sendTextMessage(sender, 'Please type the name of group you want to join')
+            sendTextMessageBackQR(sender, 'Please type the name of group you want to join')
             marker = 3
           } else if (payload === 'group_obligations') {
             //marker = 4
@@ -87,7 +87,7 @@ app.post('/webhook/', function (req, res) {
               } else if (isInDatabase) {
                 sendTextMessageBackQR(sender, 'Sorry! That group name is already taken. Please try a different group name.')
               } else {
-                sendTextMessage(sender, 'Please enter desired password.' + 
+                sendTextMessageBackQR(sender, 'Please enter desired password.' + 
                   ' Your roommates will need both the group name and entered password to join this group.')
                 marker = 2
               }
@@ -172,7 +172,7 @@ function sendTextMessage (sender, text) {
     method: 'POST',
     json: {
       recipient: {id:sender},
-      message: messageData,
+      message: messageData
     }
   }, function(error, response, body) {
     if (error) {
@@ -190,12 +190,12 @@ function yesNoQR (sender) {
     {
       content_type: 'text',
       title: 'Yes',
-      payload: 'yes',
+      payload: 'yes'
     },
     {
       content_type: 'text',
       title: 'No',
-      payload: 'no',
+      payload: 'no'
     }
   ]
 
@@ -205,7 +205,7 @@ function yesNoQR (sender) {
     method: 'POST',
     json: {
       recipient: {id:sender},
-      message: {text:textData, quick_replies:quickRepliesData},
+      message: {text:textData, quick_replies:quickRepliesData}
     }
   }, function (error, response, body) {
     if (error) {
@@ -223,7 +223,7 @@ function messageQR (sender, textData, quickRepliesData) {
     method: 'POST',
     json: {
       recipient: {id:sender},
-      message: {text:textData, quick_replies:quickRepliesData},
+      message: {text:textData, quick_replies:quickRepliesData}
     }
   }, function (error, response, body) {
     if (error) {
@@ -248,12 +248,12 @@ function checkUserID (sender, firstName) {
         {
           content_type: 'text',
           title: 'Add / Remove Obligations',
-          payload: 'group_obligations',
+          payload: 'group_obligations'
         },
         {
           content_type: 'text',
           title: 'Check Group Information',
-          payload: 'group_information',
+          payload: 'group_information'
         },
         {
           content_type: 'text',
@@ -272,12 +272,12 @@ function checkUserID (sender, firstName) {
         {
           content_type: 'text',
           title: 'Join existing group',
-          payload: 'join_group',
+          payload: 'join_group'
         },
         {
           content_type: 'text',
           title: 'Create new group',
-          payload: 'new_group',
+          payload: 'new_group'
         }
       ]
       messageQR(sender, textData, quickRepliesData)
