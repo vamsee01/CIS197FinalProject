@@ -9,7 +9,7 @@ var bcrypt = require('bcrypt');
 var groupSchema = new Schema({
   name: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  roommates: [{id: Number}] //String
+  roommates: [{id: Number}]
 });
 
 groupSchema.pre('save', function (next) {
@@ -90,6 +90,19 @@ groupSchema.statics.removeUser = function (userId, cb) {
       cb(error)
     } else {
       cb(null)
+    }
+  })
+}
+
+groupSchema.statics.getGroupInformation = function (userId, cb) {
+  var query = this.find({roommates: {$elemMatch: {id: userId}}});
+  query.select('name roommates')
+  query.exec(function (error, group) {
+    if (error) {
+      cb(error, null)
+    } else {
+      console.log('group name and roommates are ' + group.name + ' ' + group.roommates)
+      cb(null, group)
     }
   })
 }

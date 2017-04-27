@@ -60,6 +60,13 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'group_obligations') {
             //marker = 4
           } else if (payload === 'group_information') {
+            Groups.getInformation(sender, function (error, group) {
+              if (error) {
+                console.log('Error getting group information:')
+              } else {
+                console.log('group is ' + group)
+              }
+            })
             //marker = 5
           } else if (payload === 'yes') {
             Groups.removeUser(sender, function (error) {
@@ -247,7 +254,7 @@ function checkUserID (sender, firstName) {
       [
         {
           content_type: 'text',
-          title: 'Room Obligations',
+          title: 'Update Obligations',
           payload: 'group_obligations'
         },
         {
