@@ -72,7 +72,7 @@ app.post('/webhook/', function (req, res) {
                 getInformation(sender)
               }
             })
-          } else if (payload === 'no') {
+          } else if (payload === 'no' || payload === 'back') {
             marker = 0
             getInformation(sender)
           }
@@ -85,7 +85,7 @@ app.post('/webhook/', function (req, res) {
               if (error) {
                 console.log('Error searching for group in database: ', error)
               } else if (isInDatabase) {
-                sendTextMessage(sender, 'Sorry! That group name is already taken. Please try a different group name.')
+                sendTextMessageBackQR(sender, 'Sorry! That group name is already taken. Please try a different group name.')
               } else {
                 sendTextMessage(sender, 'Please enter desired password.' + 
                   ' Your roommates will need both the group name and entered password to join this group.')
@@ -111,10 +111,10 @@ app.post('/webhook/', function (req, res) {
               if (error) {
                 console.log('Error searching for group in database: ', error)
               } else if (isInDatabase) {
-                sendTextMessage(sender, 'Please enter the group-specific password.')
+                sendTextMessageBackQR(sender, 'Please enter the group-specific password.')
                 marker = 4
               } else {
-                sendTextMessage(sender, 'There is no group with that name. Please try again.')
+                sendTextMessageBackQR(sender, 'There is no group with that name. Please try again.')
               }
             })
           } else if (marker === 4 && recipient === BOT_ID) {
@@ -126,13 +126,13 @@ app.post('/webhook/', function (req, res) {
                 console.log('Error checking password in database: ', error)
               } else if (!isRight) {
                 console.log('isRight : ' + isRight)
-                sendTextMessage(sender, 'Invalid Password: could not add you to the group. Please try again.')
+                sendTextMessageBackQR(sender, 'Invalid Password: could not add you to the group. Please try again.')
               } else {
                 console.log('isRight : ' + isRight)
                 Groups.addUser(groupName, sender, function (err) {
                   if (err) {
                     console.log('Error adding user to database: ', err)
-                    sendTextMessage(sender, 'Could not add you to the group. Please try entering password again.')
+                    sendTextMessageBackQR(sender, 'Could not add you to the group. Please try entering password again.')
                   } else {
                     sendTextMessage(sender, 'Successfully added you to the ' + groupName + ' group!')
                     marker = 0
@@ -149,6 +149,19 @@ app.post('/webhook/', function (req, res) {
 })
 
 const token = process.env.FB_PAGE_ACCESS_TOKEN
+
+
+function sendTextMessageBackQR (sender, textData) {
+  let quickRepliesData = 
+  [
+    {
+      content_type: 'text'
+      title: 'Go back to main menu'
+      payload: 'back'
+    }
+  ]
+  messageQR(sender, textData, quickRepliesData)
+}
 
 function sendTextMessage (sender, text) {
   let messageData = {text:text}
@@ -203,7 +216,7 @@ function yesNoQR (sender) {
   })
 }
 
-function firstMessageQR (sender, textData, quickRepliesData) {
+function messageQR (sender, textData, quickRepliesData) {
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
@@ -234,7 +247,7 @@ function checkUserID (sender, firstName) {
       [
         {
           content_type: 'text',
-          title: 'Add or Remove Roommmate Obligations',
+          title: 'Add / Remove Obligations',
           payload: 'group_obligations',
         },
         {
@@ -248,7 +261,7 @@ function checkUserID (sender, firstName) {
           payload: 'leave_group'
         }
       ]
-      firstMessageQR(sender, textData, quickRepliesData)
+      messageQR(sender, textData, quickRepliesData)
     } else {
       console.log(sender + ' not in database')
       console.log('isInDatabase = ' + isInDatabase)
@@ -267,7 +280,7 @@ function checkUserID (sender, firstName) {
           payload: 'new_group',
         }
       ]
-      firstMessageQR(sender, textData, quickRepliesData)
+      messageQR(sender, textData, quickRepliesData)
     }
   })
 }
@@ -301,4 +314,3 @@ function getInformation (sender) {
 app.listen(app.get('port'), function() {
   console.log('running on port', app.get('port'))
 })
-
