@@ -64,7 +64,26 @@ app.post('/webhook/', function (req, res) {
             sendTextMessageBackQR(sender, 'Please type the name of group you want to join')
             marker = 3
           } else if (payload === 'update_info') {
-            //marker = 4
+            marker = 4
+            let quickRepliesData =  
+            [
+              {
+                content_type: 'text',
+                title: 'Update bills',
+                payload: 'bills'
+              },
+              {
+                content_type: 'text',
+                title: 'Update groceries',
+                payload: 'groceries'
+              },
+              {
+                content_type: 'text',
+                title: 'Update chores',
+                payload: 'chores'
+              }
+            ]
+            messageQR(sender, 'Please select an option', quickRepliesData)
           } else if (payload === 'group_info') {
             marker = 5
             toSend = sender
@@ -97,6 +116,18 @@ app.post('/webhook/', function (req, res) {
               }
             })
           } else if (payload === 'no' || payload === 'back') {
+            marker = 0
+            getInformation(sender)
+          } else if (payload === 'bills') {
+            console.log('chose bills')
+            marker = 0
+            getInformation(sender)
+          } else if (payload === 'groceries') {
+            console.log('chose groceries')
+            marker = 0
+            getInformation(sender)
+          } else if (payload === 'chores') {
+            console.log('chose chores')
             marker = 0
             getInformation(sender)
           }
