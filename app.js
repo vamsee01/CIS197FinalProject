@@ -223,6 +223,7 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 5 && recipient === BOT_ID) {
             let change = parseInt(text)
             if (isNaN(change)) {
+              marker = 6
               sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive or negative number only')
             } else {
               console.log('user wants to add/subtract ' + text + 'from bills')
@@ -239,7 +240,7 @@ const token = process.env.FB_PAGE_ACCESS_TOKEN
 
 function sendTextMessageBackQR (sender, textData) {
   let quickRepliesData 
-  if (marker === 5) {
+  if (marker === 6) {
     quickRepliesData =
     [
       {
