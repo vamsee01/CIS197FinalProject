@@ -39,7 +39,9 @@ app.use(bodyParser.json())
 // Index route
 app.get('/', function (req, res) {
   res.send('Server for the \'Messenger bot for Roommate Management by Vamsee Mupparapu\'.'
-    + '\n Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot.')
+    + '\n Go to https://www.facebook.com/Roommate-Management-792706144218311/ to interact with the messenger bot.'
+    + '\n Because the messenger bot has not been made public, you must be made a tester by Vamsee'
+    + 'to interact with it.')
 })
 
 // for Facebook verification
