@@ -243,8 +243,8 @@ function sendTextMessageBackQR (sender, textData) {
     quickRepliesData =
     [
       {
-        content_type: 'text'
-        title: 'Back'
+        content_type: 'text',
+        title: 'Back',
         payload: 'bills'
       }
     ]
