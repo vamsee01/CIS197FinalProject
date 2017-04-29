@@ -10,7 +10,7 @@ var groupSchema = new Schema({
   password: {type: String, required: true},
   roommates: [{id: Number}],
   bills: {type: Number},
-  groceries: [{grocery: String}]
+  groceries: [{grocery: String}],
   chores: [{chore: String}]
 });
 
