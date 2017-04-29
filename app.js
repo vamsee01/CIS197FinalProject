@@ -90,6 +90,11 @@ app.post('/webhook/', function (req, res) {
                 content_type: 'text',
                 title: 'Update chores',
                 payload: 'chores'
+              },
+              {
+                content_type: 'text',
+                title: 'Go back to main menu',
+                payload: 'back'
               }
             ]
             messageQR(sender, 'Please select an option', quickRepliesData)
@@ -470,11 +475,6 @@ function checkUserID (sender, body) {
           title: 'Leave group',
           payload: 'leave_group'
         },
-        {
-          content_type: 'text',
-          title: 'Go back to main menu',
-          payload: 'back'
-        }
       ]
       messageQR(sender, textData, quickRepliesData)
     } else {
