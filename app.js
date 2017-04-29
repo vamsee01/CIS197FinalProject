@@ -12,8 +12,17 @@ let groupName
 let inputPassword
 
 let ctr1 = 0
+let ctr2 = 0
+let ctr3 = 0
 let roommateMsg
 let billsMsg
+let choresMsg
+let groceriesMsg
+
+let groceries
+let chores
+let numChores
+let numGroceries
 let numRoommates
 let toSend
 
@@ -94,16 +103,23 @@ app.post('/webhook/', function (req, res) {
                 let g = group[0]
                 let name = g.name
                 roommateMsg = 'Group Name: ' + name + ' ('
+
                 let roommates = g.roommates                
                 numRoommates = Object.keys(roommates).length
                 roommateMsg = roommateMsg  + numRoommates + ' Roommates)'
-                let bills = g.bills
-                
-                let groceries = g.groceries
-                let chores = g.chores
-                console.log('chores are ' + chores + ' groceries are ' + groceries)
 
+                let bills = g.bills
                 billsMsg = 'Bills to be collectively shared total to $' + bills
+
+                groceries = g.groceries
+                numGroceries = Object.keys(groceries).length
+                groceriesMsg = 'Groceries needed:'
+
+                chores = g.chores
+                numChores = Object.keys(chores).length
+                choresMsg = 'Chores that need to be done:'
+                
+
                 roommates.forEach(function(element) {
                   getInformation(element.id)
                 })
@@ -348,6 +364,25 @@ function checkUserID (sender, body) {
   })
 }
 
+function sendGroupInfoMsg (sender, message) {
+  console.log('In sendGroupInfoMsg')
+  groceries.forEach(function(element) {
+    groceriesMsg = groceriesMsg + '\n' + element.grocery
+    ctr2++
+    if (ctr2 === numGroceries) {
+      ctr2 = 0
+      chores.forEach(function (element) {
+        choresMsg = choresMsg + '\n' + element.chore
+        ctr3++
+        if (ctr3 === numChores) {
+          ctr3 = 0
+          sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg)
+        }
+      })
+    }
+  })
+}
+
 /*
  * First name: body.first_name
  * Last name: body.last_name
@@ -373,9 +408,10 @@ function getInformation (sender) {
       roommateMsg = roommateMsg + '\n' + body.first_name + ' ' + body.last_name
       ctr1++
       if (ctr1 === numRoommates) {
-        sendTextMessageBackQR(toSend, roommateMsg + '\n' + billsMsg)
+        // sendTextMessageBackQR(toSend, roommateMsg + '\n' + billsMsg)
         ctr1 = 0
         marker = 0
+        sendGroupInfoMsg(toSend, roommateMsg + '\n' + billsMsg)
       }
     }
   })
