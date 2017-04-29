@@ -126,6 +126,16 @@ groupSchema.statics.removeUser = function (userId, cb) {
   })
 }
 
+groupSchema.statics.unsetGrocery = function (userId, number, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$unset: {'groceries.' + number: 1}}, function (error) {
+    if (error) {
+      cb (error)
+    } else {
+      cb (null)
+    }
+  }
+}
+
 groupSchema.statics.getGroupInformation = function (userId, cb) {
   var query = this.find({roommates: {$elemMatch: {id: userId}}});
   query.select('name roommates bills groceries chores')

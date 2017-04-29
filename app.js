@@ -265,6 +265,18 @@ app.post('/webhook/', function (req, res) {
             if (isNaN(remove) || remove <= 0) {
               marker = 11
               sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
+            } else {
+              Groups.unsetGrocery(userId, remove, function (error) {
+                if (error) {
+                  console.log('Error unsetting grocery: ', error)
+                  marker = 0
+                  getInformation(sender)
+                } else {
+                  console.log('unset grocery')
+                  marker = 0
+                  getInformation(sender)
+                }
+              })
             }
           } else if (marker === 9 && recipient === BOT_ID) {
             Groups.addChore(sender, text, function (error) {
