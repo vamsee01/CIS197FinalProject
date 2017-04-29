@@ -127,8 +127,8 @@ groupSchema.statics.removeUser = function (userId, cb) {
 }
 
 groupSchema.statics.unsetGrocery = function (userId, number, cb) {
-  let n = number - 1
-  let toUnset = 'groceries.' + n
+  //let n = number - 1
+  let toUnset = 'groceries.' + number
   this.update({roommates: {$elemMatch: {id: userId}}}, {$unset: {toUnset: 1}}, function (error) {
     if (error) {
       cb (error)
