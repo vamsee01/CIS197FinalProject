@@ -45,7 +45,7 @@ groupSchema.statics.containsGroup = function (groupName, cb) {
 }
 
 groupSchema.statics.containsUser = function (userId, cb) {
-  this.find({roommates: {$elemMatch: {id: userId}}}, function (error, group) {
+  this.find({roommates: {id: {$elemMatch: userId}}}, function (error, group) {
     if (error) {
       cb(error, null)
     } else if (!group.length) {
