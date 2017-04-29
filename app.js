@@ -154,16 +154,16 @@ app.post('/webhook/', function (req, res) {
             marker = 7
             sendTextMessage(sender, 'Enter the grocery you want to add')
           } else if (payload === 'remove_groceries') {
-            console.log('here2')
-            marker = 0
-            getInformation(sender)
-          } else if (payload === 'add_chores') {
             marker = 8
+            sendTextMessageBackQR(sender, 'Enter the grocery number you wish to remove.'
+              + '(Reference \'Group Info\' to see the listed groceries.)')
+          } else if (payload === 'add_chores') {
+            marker = 9
             sendTextMessage(sender, 'Enter the chore you want to add')
           } else if (payload === 'remove_chores') {
-            console.log('here4')
-            marker = 0
-            getInformation(sender)
+            marker = 10
+            sendTextMessageBackQR(sender, 'Enter the chore number you wish to remove.'
+            + '(Reference \'Group Info\' to see the current amount.)')
           }
         } else {
           if (marker === 0) {
@@ -261,6 +261,12 @@ app.post('/webhook/', function (req, res) {
                 }
             })
           } else if (marker === 8 && recipient === BOT_ID) {
+            let remove = parseInt(text) {
+              if (isNaN(remove) || remove <== 0) {
+                sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
+              }
+            }
+          } else if (marker === 9 && recipient === BOT_ID) {
             Groups.addChore(sender, text, function (error) {
                 if (error) {
                   console.log('Error adding chore to database: ', error)
@@ -271,6 +277,12 @@ app.post('/webhook/', function (req, res) {
                   getInformation(sender)
                 }
             })
+          } else if (marker === 10 && recipient === BOT_ID) {
+              let remove = parseInt(text) {
+              if (isNaN(remove) || remove <== 0) {
+                sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
+              }
+            }
           }
         }
       }
@@ -307,6 +319,16 @@ function sendTextMessageBackQR (sender, textData) {
         content_type: 'text',
         title: 'Back',
         payload: 'bills'
+      }
+    ]
+    messageQR(sender, textData, quickRepliesData)
+  } else if (marker === 8) {
+    quickRepliesData =
+    [
+      {
+        content_type: 'text',
+        title: 'Back',
+        payload: 'groceries'
       }
     ]
     messageQR(sender, textData, quickRepliesData)
