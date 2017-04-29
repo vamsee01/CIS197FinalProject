@@ -141,8 +141,8 @@ groupSchema.statics.removeUser = function (userId, cb) {
 //   })
 // }
 
-groupSchema.statics.removeGrocery = function (userId, grocery, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {groceries: grocery}}, function (error) {
+groupSchema.statics.removeGrocery = function (userId, remove, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {groceries: {grocery: remove}}}}, function (error) {
     if (error) {
       cb (error)
     } else {
@@ -162,8 +162,8 @@ groupSchema.statics.removeGrocery = function (userId, grocery, cb) {
 //   })
 // }
 
-groupSchema.statics.removeChore = function (userId, chore, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {chores: chore}}, function (error) {
+groupSchema.statics.removeChore = function (userId, remove, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {chores: {chore: remove}}}}, function (error) {
     if (error) {
       cb (error)
     } else {
