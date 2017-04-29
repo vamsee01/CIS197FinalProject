@@ -10,7 +10,7 @@ const Groups = require('./database')
 let marker = 0
 let groupName
 let inputPassword
-let groupInfoMsg
+let roommateMsg
 
 const BOT_ID = '792706144218311'
 
@@ -68,18 +68,17 @@ app.post('/webhook/', function (req, res) {
               } else {
                 let g = group[0]
                 let name = g.name
-                groupInfoMsg = 'Group Name: ' + name + ' ('
+                roommateMsg = 'Group Name: ' + name + ' ('
                 let roommates = g.roommates                
                 let numRoommates = Object.keys(roommates).length
-                groupInfoMsg = groupInfoMsg  + numRoommates + ' Roommates)'
+                roommateMsg = roommateMsg  + numRoommates + ' Roommates)'
                 //console.log('marker: ' + marker)
-
                 roommates.forEach(function(element) {
-                  // groupInfoMsg = groupInfoMsg + '\n' + element.id
                   getInformation(element.id)
                 })
 
-                console.log(groupInfoMsg)
+                sendTextMessage(sender, roommateMsg)
+                //console.log(roommateMsg)
               }
             })
             //marker = 5
@@ -330,7 +329,7 @@ function getInformation (sender) {
     } else if (marker === 0) {
       checkUserID(sender, body)
     } else {
-      groupInfoMsg = groupInfoMsg + ', ' + body.first_name + ' ' + body.last_name
+      roommateMsg = roommateMsg + '\n' + body.first_name + ' ' + body.last_name
     }
   })
 }
