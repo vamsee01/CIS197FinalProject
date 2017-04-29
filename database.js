@@ -70,8 +70,6 @@ groupSchema.statics.addUser = function (groupName, userId, cb) {
 }
 
 groupSchema.statics.addChore = function (userId, newChore, cb) {
-  var nc = newChore.toLowerCase()
-  console.log('nc is ' + nc)
   this.update({roommates: {$elemMatch: {id: userId}}}, {$push: {chores: {chore: newChore.toLowerCase()}}}, function (error) {
     if (error) {
       cb(error)
@@ -82,7 +80,7 @@ groupSchema.statics.addChore = function (userId, newChore, cb) {
 }
 
 groupSchema.statics.addGrocery = function(userId, newGrocery, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$push: {groceries: {grocery: newGrocery}}}, function (error) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$push: {groceries: {grocery: newGrocery.toLowerCase()}}}, function (error) {
     if (error) {
       cb(error)
     } else {
@@ -129,7 +127,7 @@ groupSchema.statics.removeUser = function (userId, cb) {
 }
 
 groupSchema.statics.removeGrocery = function (userId, remove, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {groceries: {grocery: remove}}}, function (error) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {groceries: {grocery: remove.toLowerCase()}}}, function (error) {
     if (error) {
       cb (error)
     } else {
@@ -139,7 +137,7 @@ groupSchema.statics.removeGrocery = function (userId, remove, cb) {
 }
 
 groupSchema.statics.removeChore = function (userId, remove, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {chores: {chore: remove}}}, function (error) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {chores: {chore: remove.toLowerCase()}}}, function (error) {
     if (error) {
       cb (error)
     } else {
