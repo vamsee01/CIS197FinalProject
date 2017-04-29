@@ -79,7 +79,7 @@ app.post('/webhook/', function (req, res) {
                   getInformation(element.id)
                 })
 
-                console.log(groupInfoMsg)
+                
 
                 //get .id for each roommates[x] and then get first and last name from them
                 //console.log('group name is ' + g.name)
@@ -336,6 +336,7 @@ function getInformation (sender) {
       checkUserID(sender, body)
     } else {
       groupInfoMsg = groupInfoMsg + '\n' + body.first_name + ' ' + body.last_name
+      console.log(groupInfoMsg)
     }
   })
 }
