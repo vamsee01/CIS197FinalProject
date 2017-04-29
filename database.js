@@ -79,6 +79,16 @@ groupSchema.statics.addChore = function (userId, newChore, cb) {
   })
 }
 
+groupSchema.statics.addGrocery = function(userId, newGrocery, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$push: {groceries: {grocery: newGrocery}}}, function (error) {
+    if (error) {
+      cb(error)
+    } else {
+      cb(null)
+    }
+  })  
+}
+
 
 groupSchema.statics.checkPassword = function (groupName, password, cb) {
   this.findOne({name: groupName}, function (error, group) {

@@ -151,15 +151,14 @@ app.post('/webhook/', function (req, res) {
             console.log('chose chores')
             sendTextMessageAddRemoveQR(sender, 'chores')
           } else if (payload === 'add_groceries') {
-            console.log('here1')
-            marker = 0
-            getInformation(sender)
+            marker = 7
+            sendTextMessage(sender, 'Enter the grocery you want to add')
           } else if (payload === 'remove_groceries') {
             console.log('here2')
             marker = 0
             getInformation(sender)
           } else if (payload === 'add_chores') {
-            marker = 7
+            marker = 8
             sendTextMessage(sender, 'Enter the chore you want to add')
           } else if (payload === 'remove_chores') {
             console.log('here4')
@@ -242,6 +241,17 @@ app.post('/webhook/', function (req, res) {
               console.log('user wants to add/subtract ' + text + ' from bills')
             }
           } else if (marker === 7 && recipient === BOT_ID) {
+            Groups.addGrocery(sender, text, function (err) {
+                if (err) {
+                  console.log('Error adding grocery to database: ', err)
+                  sendTextMessageBackQR(sender, 'Could not add grocery. Please try again.')
+                } else {
+                  sendTextMessage(sender, 'Successfully added inputted grocery!')
+                  marker = 0
+                  getInformation(sender)
+                }
+            })
+          } else if (marker === 8 && recipient === BOT_ID) {
             Groups.addChore(sender, text, function (err) {
                 if (err) {
                   console.log('Error adding chore to database: ', err)
