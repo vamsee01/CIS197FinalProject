@@ -66,9 +66,13 @@ app.post('/webhook/', function (req, res) {
               } else {
                 let g = group[0]
                 let roommates = g.roommates
-                console.log('group name is ' + g.name)
-                console.log('Number of roommates are ' + Object.keys(roommates).length)
-                console.log('roommates are ' + roommates[0].id)
+                let name = g.name
+                let numRoommates = Object.keys(roommates).length
+
+                //get .id for each roommates[x] and get first and last name from them
+                //console.log('group name is ' + g.name)
+                //console.log('Number of roommates are ' + Object.keys(roommates).length)
+                //console.log('roommates are ' + roommates[0].id)
               }
             })
             //marker = 5
@@ -245,7 +249,8 @@ function messageQR (sender, textData, quickRepliesData) {
   })
 }
 
-function checkUserID (sender, firstName) {
+function checkUserID (sender, body) {
+  let firstName = body.first_name
   Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
       console.log('Error searching for group in database: ', error)
@@ -316,7 +321,7 @@ function getInformation (sender) {
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     } else {
-      checkUserID(sender, body.first_name)
+      checkUserID(sender, body)
     }
   })
 }
