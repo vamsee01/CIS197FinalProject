@@ -260,6 +260,8 @@ function messageQR (sender, textData, quickRepliesData) {
 }
 
 function checkUserID (sender, body) {
+  console.log('marker is ' + marker)
+  console.log('first name is ' + body.first_name)
   let firstName = body.first_name
   Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
