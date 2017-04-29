@@ -84,7 +84,7 @@ groupSchema.statics.checkPassword = function (groupName, password, cb) {
 }
 
 groupSchema.statics.removeUser = function (userId, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {roommates: {$in : userId}}}, function (error) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {roommates: {$elemMatch : userId}}}, function (error) {
     if (error) {
       cb(error)
     } else {
