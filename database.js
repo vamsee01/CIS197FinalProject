@@ -1,10 +1,9 @@
 'use strict'
 
-var mongoose = require('mongoose');
-//mongoose.connect('mongodb://localhost/newDb');
-mongoose.connect(process.env.MONGODB_URI);
-var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
+var mongoose = require('mongoose')
+mongoose.connect(process.env.MONGODB_URI)
+var Schema = mongoose.Schema
+var bcrypt = require('bcrypt')
 
 var groupSchema = new Schema({
   name: {type: String, required: true, unique: true},
@@ -13,34 +12,34 @@ var groupSchema = new Schema({
 });
 
 groupSchema.pre('save', function (next) {
-  var group = this;
+  var group = this
 
   if (!group.isModified('password')) return next();
 
   bcrypt.genSalt(10, function( err, salt) {
-    if (err) return next (err);
+    if (err) return next (err)
 
     bcrypt.hash(group.password, salt, function (err, hash) {
-      if (err) return next (err);
-      group.password = hash;
-      next();
-    });
-  });
-});
+      if (err) return next (err)
+      group.password = hash
+      next()
+    })
+  })
+})
 
 groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
   var newGroup = new this({name: groupName, password: password, roommates: [{id: userId}]});
-  newGroup.save(cb);
+  newGroup.save(cb)
 }
 
 groupSchema.statics.containsGroup = function (groupName, cb) {
   this.findOne({name: groupName}, function (error, group) {
     if (error) {
-      cb(error, null);
+      cb(error, null)
     } else if (!group) {
-      cb(null, false);
+      cb(null, false)
     } else {
-      cb(null, true);
+      cb(null, true)
     }
   })
 }
@@ -48,11 +47,11 @@ groupSchema.statics.containsGroup = function (groupName, cb) {
 groupSchema.statics.containsUser = function (userId, cb) {
   this.find({roommates: {$elemMatch: {id: userId}}}, function (error, group) {
     if (error) {
-      cb(error, null);
+      cb(error, null)
     } else if (!group.length) {
-      cb(null, false);
+      cb(null, false)
     } else {
-      cb(null, true);
+      cb(null, true)
     }
   })
 }
@@ -71,13 +70,13 @@ groupSchema.statics.addUser = function (groupName, userId, cb) {
 groupSchema.statics.checkPassword = function (groupName, password, cb) {
   this.findOne({name: groupName}, function (error, group) {
     if (error) {
-      cb(error, null);
+      cb(error, null)
     } else {
       bcrypt.compare(password, group.password, function (error, isRight) {
         if (error) {
-          cb(error, null);
+          cb(error, null)
         } else {
-          cb(null, isRight);
+          cb(null, isRight)
         }
       })
     }
@@ -97,7 +96,7 @@ groupSchema.statics.removeUser = function (userId, cb) {
 groupSchema.statics.getGroupInformation = function (userId, cb) {
   var query = this.find({roommates: {$elemMatch: {id: userId}}});
   query.select('name roommates')
-  query.lean(true);
+  query.lean(true)
   query.exec(function (error, group) {
     if (error) {
       cb(error, null)
@@ -107,4 +106,4 @@ groupSchema.statics.getGroupInformation = function (userId, cb) {
   })
 }
 
-module.exports = mongoose.model('RoomateGroups', groupSchema);
+module.exports = mongoose.model('RoomateGroups', groupSchema)
