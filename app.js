@@ -154,7 +154,9 @@ app.post('/webhook/', function (req, res) {
             getInformation(sender)
           }
         } else {
+          //^^^ make this else if (recipient === BOT_ID)
           if (marker === 0) {
+            console.log('when marker is 0, reciepient=== BOT_ID? ->' + (recipient === BOT_ID))
             getInformation(sender)
           } else if (marker === 1 && recipient === BOT_ID) {
             groupName = text
@@ -236,15 +238,29 @@ const token = process.env.FB_PAGE_ACCESS_TOKEN
 
 
 function sendTextMessageBackQR (sender, textData) {
-  let quickRepliesData = 
-  [
-    {
-      content_type: 'text',
-      title: 'Go back to main menu',
-      payload: 'back'
-    }
-  ]
-  messageQR(sender, textData, quickRepliesData)
+  let quickRepliesData 
+  if (marker === 5) {
+    quickRepliesData =
+    [
+      {
+        content_type: 'text'
+        title: 'Back'
+        payload: 'bills'
+      }
+    ]
+    messageQR(sender, textData, quickRepliesData)
+  } else {
+    quickRepliesData =
+    [
+      {
+        content_type: 'text',
+        title: 'Go back to main menu',
+        payload: 'back'
+      }
+    ]
+    messageQR(sender, textData, quickRepliesData)
+  }
+
 }
 
 function sendTextMessage (sender, text) {
@@ -346,6 +362,11 @@ function checkUserID (sender, body) {
           content_type: 'text',
           title: 'Leave group',
           payload: 'leave_group'
+        },
+        {
+          content_type: 'text',
+          title: 'Back',
+          payload: 'back'
         }
       ]
       messageQR(sender, textData, quickRepliesData)
@@ -378,7 +399,7 @@ function sendGroupInfoMsg (sender, message) {
     sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg)
   } else if (numChores === 0) {
     groceries.forEach(function (element) {
-      groceriesMsg = groceriesMsg + '\n' + ctr2 + '. ' + element.grocery
+      groceriesMsg = groceriesMsg + '\n' + (ctr2 + 1) + '. ' + element.grocery
       ctr2++
       if (ctr2 === numGroceries) {
         ctr2 = 0
@@ -387,7 +408,7 @@ function sendGroupInfoMsg (sender, message) {
     })
   } else if (numGroceries === 0) {
     chores.forEach(function (element) {
-        choresMsg = choresMsg + '\n' + ctr3 + '. ' + element.chore
+        choresMsg = choresMsg + '\n' + (ctr3 + 1) + '. ' + element.chore
         ctr3++
         if (ctr3 === numChores) {
           ctr3 = 0
@@ -396,12 +417,12 @@ function sendGroupInfoMsg (sender, message) {
     })
   } else {
       groceries.forEach(function(element) {
-      groceriesMsg = groceriesMsg + '\n' + ctr2 + '. ' + element.grocery
+      groceriesMsg = groceriesMsg + '\n' + (ctr2 + 1) + '. ' + element.grocery
       ctr2++
       if (ctr2 === numGroceries) {
         ctr2 = 0
         chores.forEach(function (element) {
-          choresMsg = choresMsg + '\n' + ctr3 + '. ' + element.chore
+          choresMsg = choresMsg + '\n' + (ctr3 + 1) + '. ' + element.chore
           ctr3++
           if (ctr3 === numChores) {
             ctr3 = 0
