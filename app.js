@@ -73,7 +73,7 @@ app.post('/webhook/', function (req, res) {
             sendTextMessageBackQR(sender, 'Please type the name of group you want to join')
             marker = 3
           } else if (payload === 'update_info') {
-            marker = 4
+            //marker = 4
             let quickRepliesData =  
             [
               {
@@ -94,7 +94,7 @@ app.post('/webhook/', function (req, res) {
             ]
             messageQR(sender, 'Please select an option', quickRepliesData)
           } else if (payload === 'group_info') {
-            marker = 5
+            marker = 4
             toSend = sender
             Groups.getGroupInformation(sender, function (error, group) {
               if (error) {
@@ -141,8 +141,9 @@ app.post('/webhook/', function (req, res) {
             getInformation(sender)
           } else if (payload === 'bills') {
             console.log('chose bills')
-            marker = 0
-            getInformation(sender)
+            marker = 5
+            sendTextMessageBackQR('Enter a number you want to add or subtract to the collective group bills'
+              + '(i.e. \'4\' or \'-4\'). Reference \'Group Info\' to see the current amount.')
           } else if (payload === 'groceries') {
             console.log('chose groceries')
             marker = 0
@@ -217,6 +218,8 @@ app.post('/webhook/', function (req, res) {
                 })
               }
             })
+          } else if (marker === 5 && recipient === BOT_ID) {
+            console.log('user wants to add/subtract ' + text + 'from bills')
           }
         }
       }
