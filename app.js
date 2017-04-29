@@ -81,8 +81,6 @@ app.post('/webhook/', function (req, res) {
                 roommates.forEach(function(element) {
                   getInformation(element.id)
                 })
-
-                //console.log(roommateMsg)
               }
             })
             //marker = 5
@@ -260,8 +258,8 @@ function messageQR (sender, textData, quickRepliesData) {
 }
 
 function checkUserID (sender, body) {
-  console.log('marker is ' + marker)
-  console.log('first name is ' + body.first_name)
+  //console.log('marker is ' + marker)
+  //console.log('first name is ' + body.first_name)
   let firstName = body.first_name
   Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
@@ -339,6 +337,8 @@ function getInformation (sender) {
       ctr1++
       if (ctr1 === numRoommates) {
         sendTextMessage(toSend, roommateMsg)
+        ctr1 = 0
+        marker = 0
       }
     }
   })
