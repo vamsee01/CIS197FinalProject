@@ -146,12 +146,10 @@ app.post('/webhook/', function (req, res) {
               + '(i.e. \'4\' or \'-4\'). Reference \'Group Info\' to see the current amount.')
           } else if (payload === 'groceries') {
             console.log('chose groceries')
-            marker = 0
-            getInformation(sender)
+            sendTextMessageAddRemoveQR(sender, 'groceries')
           } else if (payload === 'chores') {
             console.log('chose chores')
-            marker = 0
-            getInformation(sender)
+            sendTextMessageAddRemoveQR(sender, 'chores')
           }
         } else {
           //^^^ make this else if (recipient === BOT_ID)
@@ -226,7 +224,7 @@ app.post('/webhook/', function (req, res) {
               marker = 6
               sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive or negative number only')
             } else {
-              console.log('user wants to add/subtract ' + text + 'from bills')
+              console.log('user wants to add/subtract ' + text + ' from bills')
             }
           }
         }
@@ -236,6 +234,25 @@ app.post('/webhook/', function (req, res) {
 })
 
 const token = process.env.FB_PAGE_ACCESS_TOKEN
+
+function sendTextMessageAddRemoveQR(sender, type) {
+  console.log('Type is ' + type)
+  let textData = 'Do you want add or remove an item from ' + type + '?'
+  let quickRepliesData = 
+  [
+    {
+      content_type: 'text',
+      title: 'Add ' + type,
+      payload: 'add_' + type
+    },
+    {
+      content_type: 'text',
+      title: 'Remove ' + type,
+      payload: 'remove_' + type
+    }
+  ]
+  messageQR(sender, textData, quickRepliesData)
+}
 
 
 function sendTextMessageBackQR (sender, textData) {
