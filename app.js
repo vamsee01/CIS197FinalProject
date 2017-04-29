@@ -152,14 +152,14 @@ app.post('/webhook/', function (req, res) {
             sendTextMessageAddRemoveQR(sender, 'chores')
           } else if (payload === 'add_groceries') {
             marker = 7
-            sendTextMessage(sender, 'Enter the grocery you want to add')
+            sendTextMessageBackQR(sender, 'Enter the grocery you want to add')
           } else if (payload === 'remove_groceries') {
             marker = 8
             sendTextMessageBackQR(sender, 'Enter the grocery number you wish to remove.'
               + '(Reference \'Group Info\' to see the listed groceries.)')
           } else if (payload === 'add_chores') {
             marker = 9
-            sendTextMessage(sender, 'Enter the chore you want to add')
+            sendTextMessageBackQR(sender, 'Enter the chore you want to add')
           } else if (payload === 'remove_chores') {
             marker = 10
             sendTextMessageBackQR(sender, 'Enter the chore number you wish to remove.'
@@ -263,7 +263,8 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 8 && recipient === BOT_ID) {
             let remove = parseInt(text)
             if (isNaN(remove) || remove <= 0) {
-                sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
+              marker = 11
+              sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
             }
           } else if (marker === 9 && recipient === BOT_ID) {
             Groups.addChore(sender, text, function (error) {
@@ -279,6 +280,7 @@ app.post('/webhook/', function (req, res) {
           } else if (marker === 10 && recipient === BOT_ID) {
               let remove = parseInt(text)
               if (isNaN(remove) || remove <= 0) {
+                marker = 12
                 sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
             }
           }
@@ -320,13 +322,23 @@ function sendTextMessageBackQR (sender, textData) {
       }
     ]
     messageQR(sender, textData, quickRepliesData)
-  } else if (marker === 8) {
+  } else if (marker === 11) {
     quickRepliesData =
     [
       {
         content_type: 'text',
         title: 'Back',
         payload: 'groceries'
+      }
+    ]
+    messageQR(sender, textData, quickRepliesData)
+  } else if (marker === 12) {
+    quickRepliesData =
+    [
+      {
+        content_type: 'text',
+        title: 'Back',
+        payload: 'chores'
       }
     ]
     messageQR(sender, textData, quickRepliesData)
