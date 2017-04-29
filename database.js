@@ -30,7 +30,7 @@ groupSchema.pre('save', function (next) {
   })
 })
 
-groupSchema.pre('update', function (next) {
+groupSchema.post('update', function (next) {
   var group = this
   console.log('here in update middleware')
   //if (!group.isModified('bills')) return next();

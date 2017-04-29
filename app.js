@@ -167,7 +167,7 @@ app.post('/webhook/', function (req, res) {
           }
         } else {
           if (marker === 0) {
-            console.log('when marker is 0, reciepient=== BOT_ID? ->' + (recipient === BOT_ID))
+            //console.log('when marker is 0, reciepient=== BOT_ID? ->' + (recipient === BOT_ID))
             getInformation(sender)
           } else if (marker === 1 && recipient === BOT_ID) {
             groupName = text
