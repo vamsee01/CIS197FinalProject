@@ -12,7 +12,7 @@ var groupSchema = new Schema({
   bills: {type: Number},
   groceries: [{grocery: String}],
   chores: [{chore: String}]
-});
+})
 
 groupSchema.pre('save', function (next) {
   var group = this
@@ -126,21 +126,6 @@ groupSchema.statics.removeUser = function (userId, cb) {
   })
 }
 
-// groupSchema.statics.unsetGrocery = function (userId, number, cb) {
-//   //let n = number - 1
-//   let toUnset = 'groceries.' + (number - 1)
-//   console.log('toUnset is ' + toUnset)
-
-//   this.update({roommates: {$elemMatch: {id: userId}}}, {$unset: {('groceries.' + (number - 1)): 1}}, function (error) {
-//     if (error) {
-//       cb (error)
-//     } else {
-//       console.log('unset')
-//       cb (null)
-//     }
-//   })
-// }
-
 groupSchema.statics.removeGrocery = function (userId, remove, cb) {
   this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {groceries: {grocery: remove}}}, function (error) {
     if (error) {
@@ -150,17 +135,6 @@ groupSchema.statics.removeGrocery = function (userId, remove, cb) {
     }
   })
 }
-
-// groupSchema.statics.unsetChore = function (userId, number, cb) {
-//   let toUnset = 'chores.' + (number - 1)
-//   this.update({roommates: {$elemMatch: {id: userId}}}, {$unset: {toUnset: 1}}, function (error) {
-//     if (error) {
-//       cb (error)
-//     } else {
-//       cb (null)
-//     }
-//   })
-// }
 
 groupSchema.statics.removeChore = function (userId, remove, cb) {
   this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {chores: {chore: remove}}}, function (error) {
