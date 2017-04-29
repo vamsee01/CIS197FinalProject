@@ -150,7 +150,24 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'chores') {
             console.log('chose chores')
             sendTextMessageAddRemoveQR(sender, 'chores')
+          } else if (payload === 'add_groceries') {
+            console.log('here1')
+            marker = 0
+            getInformation(sender)
+          } else if (payload === 'remove_groceries') {
+            console.log('here2')
+            marker = 0
+            getInformation(sender)
+          } else if (payload === 'add_chores') {
+            console.log('here3')
+            marker = 0
+            getInformation(sender)
+          } else if (payload === 'remove_chores') {
+            console.log('here4')
+            marker = 0
+            getInformation(sender)
           }
+
         } else {
           //^^^ make this else if (recipient === BOT_ID)
           if (marker === 0) {
