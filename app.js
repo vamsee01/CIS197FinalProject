@@ -63,7 +63,7 @@ app.post('/webhook/', function (req, res) {
         if (event.message.quick_reply) {
           //Handle a quick reply selection
           let payload = event.message.quick_reply.payload
-
+          
           if (payload === 'new_group') {
             sendTextMessageBackQR(sender, 'Please type the name of your desired roommate group')
             marker = 1
