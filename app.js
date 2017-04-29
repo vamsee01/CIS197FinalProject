@@ -79,12 +79,7 @@ app.post('/webhook/', function (req, res) {
                   getInformation(element.id)
                 })
 
-                
-
-                //get .id for each roommates[x] and then get first and last name from them
-                //console.log('group name is ' + g.name)
-                //console.log('Number of roommates are ' + Object.keys(roommates).length)
-                //console.log('roommates are ' + roommates[0].id)
+                console.log(groupInfoMsg)
               }
             })
             //marker = 5
@@ -335,8 +330,7 @@ function getInformation (sender) {
     } else if (marker === 0) {
       checkUserID(sender, body)
     } else {
-      groupInfoMsg = groupInfoMsg + '\n' + body.first_name + ' ' + body.last_name
-      console.log(groupInfoMsg)
+      groupInfoMsg = groupInfoMsg + ', ' + body.first_name + ' ' + body.last_name
     }
   })
 }
