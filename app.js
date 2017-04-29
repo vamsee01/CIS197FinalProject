@@ -10,6 +10,7 @@ const Groups = require('./database')
 let marker = 0
 let groupName
 let inputPassword
+let groupInfoMsg
 
 const BOT_ID = '792706144218311'
 
@@ -66,16 +67,16 @@ app.post('/webhook/', function (req, res) {
               } else {
                 let g = group[0]
                 let name = g.name
-                let msg = 'Group Name: ' + name + ' '
+                groupInfoMsg = 'Group Name: ' + name + ' - '
                 let roommates = g.roommates                
                 let numRoommates = Object.keys(roommates).length
-                msg = msg  + numRoommates + ' Roommates: '
+                groupInfoMsg = groupInfoMsg  + numRoommates + ' Roommates: '
 
                 roommates.forEach(function(element) {
-                  msg = msg + '\n' + element.id
+                  groupInfoMsg = groupInfoMsg + '\n' + element.id
                 })
 
-                console.log(msg)
+                console.log(groupInfoMsg)
 
                 //get .id for each roommates[x] and then get first and last name from them
                 //console.log('group name is ' + g.name)
