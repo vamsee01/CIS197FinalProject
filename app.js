@@ -69,6 +69,8 @@ app.post('/webhook/', function (req, res) {
 
                 console.log('group is ' + g)
                 console.log('g1 is ' + g1)
+                console.log('g1 stringify is ' + JSON.stringify(g1))
+                console.log('g1[0] ' + g1[0])
                 //console.log(g1.name + ' ' + g1.roommmates)
                 //console.log('to String is ' + g.toString())
                 //console.log('name is ' + g.name + ' roommmates are ' + g.roommmates)
