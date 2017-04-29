@@ -67,7 +67,8 @@ app.post('/webhook/', function (req, res) {
                 let g = group[0]
                 let roommates = g.roommates
                 console.log('group name is ' + g.name)
-                console.log('roommates are ' + JSON.stringify(roommates[0]))
+                console.log('Number of roommates are ' + roommates.length())
+                console.log('roommates are ' + roommates[0].id)
               }
             })
             //marker = 5
