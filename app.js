@@ -69,7 +69,16 @@ app.post('/webhook/', function (req, res) {
                 let name = g.name
                 let numRoommates = Object.keys(roommates).length
 
-                //get .id for each roommates[x] and get first and last name from them
+                let msg = 'Group Name: ' + name +'\n' + 'Roommates: \n'
+
+                roommates.forEach(element) {
+                  console.log(element.id)
+                  msg = msg + element.id
+                }
+
+                console.log(msg)
+
+                //get .id for each roommates[x] and then get first and last name from them
                 //console.log('group name is ' + g.name)
                 //console.log('Number of roommates are ' + Object.keys(roommates).length)
                 //console.log('roommates are ' + roommates[0].id)
