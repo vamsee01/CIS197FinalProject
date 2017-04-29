@@ -73,7 +73,6 @@ app.post('/webhook/', function (req, res) {
             sendTextMessageBackQR(sender, 'Please type the name of group you want to join')
             marker = 3
           } else if (payload === 'update_info') {
-            //marker = 4
             let quickRepliesData =  
             [
               {
@@ -134,7 +133,6 @@ app.post('/webhook/', function (req, res) {
               if (error) {
                 console.log('Error removing user his/her group: ', error)
               } else {
-                //console.log('Successfully removed ' + sender + ' from his/her group')
                 sendTextMessage(sender, 'Successfully removed you from your roommate group. ...')
                 marker = 0
                 getInformation(sender)
@@ -144,15 +142,12 @@ app.post('/webhook/', function (req, res) {
             marker = 0
             getInformation(sender)
           } else if (payload === 'bills') {
-            //console.log('chose bills')
             marker = 5
             sendTextMessageBackQR(sender, 'Enter a number you want to add or subtract to the collective group bills'
               + '(i.e. \'4\' or \'-4\'). Reference \'Group Info\' to see the current amount.')
           } else if (payload === 'groceries') {
-            //console.log('chose groceries')
             sendTextMessageAddRemoveQR(sender, 'groceries')
           } else if (payload === 'chores') {
-            //console.log('chose chores')
             sendTextMessageAddRemoveQR(sender, 'chores')
           } else if (payload === 'add_groceries') {
             marker = 7
@@ -171,7 +166,6 @@ app.post('/webhook/', function (req, res) {
           }
         } else {
           if (marker === 0) {
-            //console.log('when marker is 0, reciepient=== BOT_ID? ->' + (recipient === BOT_ID))
             getInformation(sender)
           } else if (marker === 1 && recipient === BOT_ID) {
             groupName = text
@@ -188,8 +182,6 @@ app.post('/webhook/', function (req, res) {
             })
           } else if (marker === 2 && recipient === BOT_ID) { 
             inputPassword = text
-            //console.log('group name is ' + groupName)
-            //console.log('password is ' + inputPassword)
             Groups.addGroup(groupName, inputPassword, sender, function (error) {
               if (error) {
                 console.log('Error adding group to database: ', error)
@@ -213,16 +205,12 @@ app.post('/webhook/', function (req, res) {
             })
           } else if (marker === 4 && recipient === BOT_ID) {
             inputPassword = text
-            //console.log('groupName is ' + groupName)
-            //console.log('inputPassword is ' + inputPassword)
             Groups.checkPassword(groupName, inputPassword, function (error, isRight) {
               if (error) {
                 console.log('Error checking password in database: ', error)
               } else if (!isRight) {
-                //console.log('isRight : ' + isRight)
                 sendTextMessageBackQR(sender, 'Invalid Password: could not add you to the group. Please try again.')
               } else {
-                //console.log('isRight : ' + isRight)
                 Groups.addUser(groupName, sender, function (error) {
                   if (error) {
                     console.log('Error adding user to database: ', error)
@@ -241,7 +229,6 @@ app.post('/webhook/', function (req, res) {
               marker = 6
               sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive or negative number only')
             } else {
-              //console.log('user wants to add/subtract ' + text + ' from bills')
               Groups.updateBills(sender, change, function (error) {
                 if (error) {
                   console.log('Error changing bills value in database: ', error)
@@ -305,7 +292,6 @@ app.post('/webhook/', function (req, res) {
 })
 
 function sendTextMessageAddRemoveQR(sender, type) {
-  //console.log('Type is ' + type)
   let textData = 'Do you want add or remove an item from ' + type + '?'
   let quickRepliesData = 
   [
@@ -447,15 +433,11 @@ function messageQR (sender, textData, quickRepliesData) {
 }
 
 function checkUserID (sender, body) {
-  //console.log('marker is ' + marker)
-  //console.log('first name is ' + body.first_name)
   let firstName = body.first_name
   Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
       console.log('Error searching for group in database: ', error)
     } else if (isInDatabase) {
-      //console.log(sender + ' is in database')
-      //console.log('isInDatabase = ' + isInDatabase)
       let textData = 'Hi ' + firstName + ', '
       + 'You are currently in a group. Please select an option.'
       let quickRepliesData =  
@@ -478,8 +460,6 @@ function checkUserID (sender, body) {
       ]
       messageQR(sender, textData, quickRepliesData)
     } else {
-      //console.log(sender + ' not in database')
-      //console.log('isInDatabase = ' + isInDatabase)
       let textData = 'Hi ' + firstName + ', '
       + 'You are currently not in a group. Please select an option.'
       let quickRepliesData =  
@@ -501,7 +481,6 @@ function checkUserID (sender, body) {
 }
 
 function sendGroupInfoMsg (sender, message) {
-  //console.log('In sendGroupInfoMsg')
   if (numGroceries === 0 && numChores === 0) {
     sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg)
   } else if (numChores === 0) {
@@ -549,7 +528,6 @@ function sendGroupInfoMsg (sender, message) {
  * Timezone: body.timezone
  * Gender: body.gender
  */
-
 function getInformation (sender) {
   let profileInformation = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
   request({
