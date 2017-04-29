@@ -17,6 +17,8 @@ var groupSchema = new Schema({
 groupSchema.pre('save', function (next) {
   var group = this
 
+  if (group.bills < 0) group.bills = 0;
+
   if (!group.isModified('password')) return next();
 
   bcrypt.genSalt(10, function( err, salt) {
@@ -86,7 +88,17 @@ groupSchema.statics.addGrocery = function(userId, newGrocery, cb) {
     } else {
       cb(null)
     }
-  })  
+  })
+}
+
+groupSchema.static.updateBills = function(userId, change, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$add: {bills: change}}, function (error) {
+    if (error) {
+      cb(error)
+    } else {
+      cb(null)
+    }     
+  })
 }
 
 

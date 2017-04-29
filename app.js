@@ -220,9 +220,9 @@ app.post('/webhook/', function (req, res) {
                 sendTextMessageBackQR(sender, 'Invalid Password: could not add you to the group. Please try again.')
               } else {
                 console.log('isRight : ' + isRight)
-                Groups.addUser(groupName, sender, function (err) {
-                  if (err) {
-                    console.log('Error adding user to database: ', err)
+                Groups.addUser(groupName, sender, function (error) {
+                  if (error) {
+                    console.log('Error adding user to database: ', error)
                     sendTextMessageBackQR(sender, 'Could not add you to the group. Please try entering password again.')
                   } else {
                     sendTextMessage(sender, 'Successfully added you to the ' + groupName + ' group!')
@@ -239,11 +239,21 @@ app.post('/webhook/', function (req, res) {
               sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive or negative number only')
             } else {
               console.log('user wants to add/subtract ' + text + ' from bills')
+              Groups.updateBills(sender, change, function (error) {
+                if (error) {
+                  console.log('Error changing bills value in database: ', error)
+                  sendTextMessageBackQR(sender, 'Could not complete computation. Please try again.')
+                } else {
+                  sendTextMessage(sender, 'Successfully changed bills value!')
+                  marker = 0
+                  getInformation(sender)
+                }
+              })
             }
           } else if (marker === 7 && recipient === BOT_ID) {
-            Groups.addGrocery(sender, text, function (err) {
-                if (err) {
-                  console.log('Error adding grocery to database: ', err)
+            Groups.addGrocery(sender, text, function (error) {
+                if (error) {
+                  console.log('Error adding grocery to database: ', error)
                   sendTextMessageBackQR(sender, 'Could not add grocery. Please try again.')
                 } else {
                   sendTextMessage(sender, 'Successfully added inputted grocery!')
@@ -252,9 +262,9 @@ app.post('/webhook/', function (req, res) {
                 }
             })
           } else if (marker === 8 && recipient === BOT_ID) {
-            Groups.addChore(sender, text, function (err) {
-                if (err) {
-                  console.log('Error adding chore to database: ', err)
+            Groups.addChore(sender, text, function (error) {
+                if (error) {
+                  console.log('Error adding chore to database: ', error)
                   sendTextMessageBackQR(sender, 'Could not add chore. Please try again.')
                 } else {
                   sendTextMessage(sender, 'Successfully added inputted chore!')
