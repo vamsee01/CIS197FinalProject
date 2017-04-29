@@ -72,7 +72,7 @@ app.post('/webhook/', function (req, res) {
                 let msg = 'Group Name: ' + name +'\n' + 'Roommates: \n'
 
                 roommates.forEach(function(element) {
-                  console.log(element.id)
+                  //console.log(element.id)
                   msg = msg + element.id
                 })
 
