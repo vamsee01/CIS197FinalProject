@@ -9,7 +9,9 @@ var groupSchema = new Schema({
   name: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   roommates: [{id: Number}],
-  bills: {type: Number}
+  bills: {type: Number},
+  groceries: [{grocery: String}]
+  chores: [{chore: String}]
 });
 
 groupSchema.pre('save', function (next) {
@@ -29,7 +31,7 @@ groupSchema.pre('save', function (next) {
 })
 
 groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
-  var newGroup = new this({name: groupName, password: password, roommates: [{id: userId}], bills: 0});
+  var newGroup = new this({name: groupName, password: password, roommates: [{id: userId}], bills: 0, groceries:[], chores: []});
   newGroup.save(cb)
 }
 
@@ -96,7 +98,7 @@ groupSchema.statics.removeUser = function (userId, cb) {
 
 groupSchema.statics.getGroupInformation = function (userId, cb) {
   var query = this.find({roommates: {$elemMatch: {id: userId}}});
-  query.select('name roommates bills')
+  query.select('name roommates bills groceries chores')
   query.lean(true)
   query.exec(function (error, group) {
     if (error) {

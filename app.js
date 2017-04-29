@@ -98,6 +98,11 @@ app.post('/webhook/', function (req, res) {
                 numRoommates = Object.keys(roommates).length
                 roommateMsg = roommateMsg  + numRoommates + ' Roommates)'
                 let bills = g.bills
+                
+                let groceries = g.groceries
+                let chores = g.chores
+                console.log('chores are ' + chores + ' groceries are ' + groceries)
+
                 billsMsg = 'Bills to be collectively shared total to $' + bills
                 roommates.forEach(function(element) {
                   getInformation(element.id)
