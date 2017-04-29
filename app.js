@@ -261,10 +261,9 @@ app.post('/webhook/', function (req, res) {
                 }
             })
           } else if (marker === 8 && recipient === BOT_ID) {
-            let remove = parseInt(text) {
-              if (isNaN(remove) || remove <== 0) {
+            let remove = parseInt(text)
+            if (isNaN(remove) || remove <== 0) {
                 sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
-              }
             }
           } else if (marker === 9 && recipient === BOT_ID) {
             Groups.addChore(sender, text, function (error) {
@@ -278,10 +277,9 @@ app.post('/webhook/', function (req, res) {
                 }
             })
           } else if (marker === 10 && recipient === BOT_ID) {
-              let remove = parseInt(text) {
+              let remove = parseInt(text)
               if (isNaN(remove) || remove <== 0) {
                 sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
-              }
             }
           }
         }
