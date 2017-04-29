@@ -171,7 +171,7 @@ app.post('/webhook/', function (req, res) {
           getInformation(sender);
         } else if (marker === 1 && recipient === BOT_ID) {
           groupName = text;
-          Groups.containsGroup(groupName, function(error, isInDatabase) {
+          Groups.containsGroup(groupName, function (error, isInDatabase) {
             if (error) {
               console.log('Error searching for group in database: ', error);
             } else if (isInDatabase) {
@@ -195,7 +195,7 @@ app.post('/webhook/', function (req, res) {
           });
         } else if (marker === 3 && recipient === BOT_ID) {
           groupName = text;
-          Groups.containsGroup(groupName, function(error, isInDatabase) {
+          Groups.containsGroup(groupName, function (error, isInDatabase) {
             if (error) {
               console.log('Error searching for group in database: ', error);
             } else if (isInDatabase) {
@@ -233,25 +233,25 @@ app.post('/webhook/', function (req, res) {
           } else {
             Groups.updateBills(sender, change, function (error) {
               if (error) {
-                console.log('Error changing bills value in database: ', error)
+                console.log('Error changing bills value in database: ', error);
                 sendTextMessageBackQR(sender, 'Could not complete computation. Please try again.');
               } else {
                 sendTextMessage(sender, 'Successfully changed value!');
-                marker = 0
+                marker = 0;
                 getInformation(sender);
               }
             });
           }
         } else if (marker === 7 && recipient === BOT_ID) {
           Groups.addGrocery(sender, text, function (error) {
-              if (error) {
-                console.log('Error adding grocery to database: ', error);
-                sendTextMessageBackQR(sender, 'Could not add grocery. Please try again.');
-              } else {
-                sendTextMessage(sender, 'Successfully added inputted grocery!');
-                marker = 0;
-                getInformation(sender);
-              }
+            if (error) {
+              console.log('Error adding grocery to database: ', error);
+              sendTextMessageBackQR(sender, 'Could not add grocery. Please try again.');
+            } else {
+              sendTextMessage(sender, 'Successfully added inputted grocery!');
+              marker = 0;
+              getInformation(sender);
+            }
           });
         } else if (marker === 8 && recipient === BOT_ID) {
           Groups.removeGrocery(sender, text, function (error) {
@@ -266,58 +266,58 @@ app.post('/webhook/', function (req, res) {
           });
         } else if (marker === 9 && recipient === BOT_ID) {
           Groups.addChore(sender, text, function (error) {
-              if (error) {
-                console.log('Error adding chore to database: ', error);
-                sendTextMessageBackQR(sender, 'Could not add chore. Please try again.');
-              } else {
-                sendTextMessage(sender, 'Successfully added inputted chore!');
-                marker = 0;
-                getInformation(sender);
-              }
-            });
-          } else if (marker === 10 && recipient === BOT_ID) {
-            Groups.removeChore(sender, text, function (error) {
-              if (error) {
-                marker = 11;
-                sendTextMessageBackQR(sender, 'Invalid input. Please refer to \'Group Info\' for listed chores.');
-              } else {
-                sendTextMessage(sender, 'Successfully removed inputted chore');
-                marker = 0;
-                getInformation(sender);
-              }
-            });
-          }
+            if (error) {
+              console.log('Error adding chore to database: ', error);
+              sendTextMessageBackQR(sender, 'Could not add chore. Please try again.');
+            } else {
+              sendTextMessage(sender, 'Successfully added inputted chore!');
+              marker = 0;
+              getInformation(sender);
+            }
+          });
+        } else if (marker === 10 && recipient === BOT_ID) {
+          Groups.removeChore(sender, text, function (error) {
+            if (error) {
+              marker = 11;
+              sendTextMessageBackQR(sender, 'Invalid input. Please refer to \'Group Info\' for listed chores.');
+            } else {
+              sendTextMessage(sender, 'Successfully removed inputted chore');
+              marker = 0;
+              getInformation(sender);
+            }
+          });
         }
       }
     }
+  }
   res.sendStatus(200);
 });
 
 function sendTextMessageAddRemoveQR(sender, type) {
   let textData = 'Do you want add or remove an item from ' + type + '?';
   let quickRepliesData = 
-  [
-    {
-      content_type: 'text',
-      title: 'Add ' + type,
-      payload: 'add_' + type
-    },
-    {
-      content_type: 'text',
-      title: 'Remove ' + type,
-      payload: 'remove_' + type
-    },
-    {
-      content_type: 'text',
-      title: 'Go back to main menu',
-      payload: 'back'
-    }
-  ];
+    [
+      {
+        content_type: 'text',
+        title: 'Add ' + type,
+        payload: 'add_' + type
+      },
+      {
+        content_type: 'text',
+        title: 'Remove ' + type,
+        payload: 'remove_' + type
+      },
+      {
+        content_type: 'text',
+        title: 'Go back to main menu',
+        payload: 'back'
+      }
+    ];
   messageQR(sender, textData, quickRepliesData);
 }
 
 
-function sendTextMessageBackQR (sender, textData) {
+function sendTextMessageBackQR(sender, textData) {
   let quickRepliesData;
   if (marker === 6) {
     quickRepliesData =
@@ -363,7 +363,7 @@ function sendTextMessageBackQR (sender, textData) {
 
 }
 
-function sendTextMessage (sender, text) {
+function sendTextMessage(sender, text) {
   let messageData = {text:text};
 
   request({
@@ -374,7 +374,7 @@ function sendTextMessage (sender, text) {
       recipient: {id:sender},
       message: messageData
     }
-  }, function(error, response, body) {
+  }, function (error, response, body) {
     if (error) {
       console.log('Error sending message: ', error);
     } else if (response.body.error) {
@@ -383,21 +383,21 @@ function sendTextMessage (sender, text) {
   });
 }
 
-function yesNoQR (sender) {
+function yesNoQR(sender) {
   let textData = 'Are you sure you want to leave your group?';
   let quickRepliesData =  
-  [
-    {
-      content_type: 'text',
-      title: 'Yes',
-      payload: 'yes'
-    },
-    {
-      content_type: 'text',
-      title: 'No',
-      payload: 'no'
-    }
-  ];
+    [
+      {
+        content_type: 'text',
+        title: 'Yes',
+        payload: 'yes'
+      },
+      {
+        content_type: 'text',
+        title: 'No',
+        payload: 'no'
+      }
+    ];
 
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -416,7 +416,7 @@ function yesNoQR (sender) {
   });
 }
 
-function messageQR (sender, textData, quickRepliesData) {
+function messageQR(sender, textData, quickRepliesData) {
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
@@ -434,55 +434,55 @@ function messageQR (sender, textData, quickRepliesData) {
   });
 }
 
-function checkUserID (sender, body) {
-  let firstName = body.first_name
+function checkUserID(sender, body) {
+  let firstName = body.first_name;
   Groups.containsUser(sender, function (error, isInDatabase) {
     if (error) {
       console.log('Error searching for group in database: ', error);
     } else if (isInDatabase) {
       let textData = 'Hi ' + firstName + ', '
-      + 'You are currently in a group. Please select an option.'
+      + 'You are currently in a group. Please select an option.';
       let quickRepliesData =  
-      [
-        {
-          content_type: 'text',
-          title: 'Update Info',
-          payload: 'update_info'
-        },
-        {
-          content_type: 'text',
-          title: 'Group Info',
-          payload: 'group_info'
-        },
-        {
-          content_type: 'text',
-          title: 'Leave group',
-          payload: 'leave_group'
-        },
-      ];
+        [
+          {
+            content_type: 'text',
+            title: 'Update Info',
+            payload: 'update_info'
+          },
+          {
+            content_type: 'text',
+            title: 'Group Info',
+            payload: 'group_info'
+          },
+          {
+            content_type: 'text',
+            title: 'Leave group',
+            payload: 'leave_group'
+          },
+        ];
       messageQR(sender, textData, quickRepliesData);
     } else {
       let textData = 'Hi ' + firstName + ', '
       + 'You are currently not in a group. Please select an option.';
       let quickRepliesData =  
-      [
-        {
-          content_type: 'text',
-          title: 'Join existing group',
-          payload: 'join_group'
-        },
-        {
-          content_type: 'text',
-          title: 'Create new group',
-          payload: 'new_group'
-        }
-      ];
+        [
+          {
+            content_type: 'text',
+            title: 'Join existing group',
+            payload: 'join_group'
+          },
+          {
+            content_type: 'text',
+            title: 'Create new group',
+            payload: 'new_group'
+          }
+        ];
       messageQR(sender, textData, quickRepliesData);
     }
   });
 }
 
-function sendGroupInfoMsg (sender, message) {
+function sendGroupInfoMsg(sender, message) {
   if (numGroceries === 0 && numChores === 0) {
     sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg);
   } else if (numChores === 0) {
@@ -496,15 +496,15 @@ function sendGroupInfoMsg (sender, message) {
     });
   } else if (numGroceries === 0) {
     chores.forEach(function (element) {
-        choresMsg = choresMsg + '\n' + element.chore;
-        ctr3++;
-        if (ctr3 === numChores) {
-          ctr3 = 0;
-          sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg);
-        }
+      choresMsg = choresMsg + '\n' + element.chore;
+      ctr3++;
+      if (ctr3 === numChores) {
+        ctr3 = 0;
+        sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg);
+      }
     });
   } else {
-      groceries.forEach(function(element) {
+    groceries.forEach(function (element) {
       groceriesMsg = groceriesMsg + '\n' + element.grocery;
       ctr2++;
       if (ctr2 === numGroceries) {
@@ -530,18 +530,18 @@ function sendGroupInfoMsg (sender, message) {
  * Timezone: body.timezone
  * Gender: body.gender
  */
-function getInformation (sender) {
+function getInformation(sender) {
   let profileInformation = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
   request({
     url: profileInformation,
     json: true
-  }, function(error, response, body) {
+  }, function (error, response, body) {
     if (error) {
       console.log('Error obtaining profile information: ', error);
     } else if (response.body.error) {
       console.log('Error: ', response.body.error);
     } else if (marker === 0) {
-      checkUserID(sender, body)
+      checkUserID(sender, body);
     } else {
       roommateMsg = roommateMsg + '\n' + body.first_name + ' ' + body.last_name;
       ctr1++;
@@ -555,6 +555,6 @@ function getInformation (sender) {
 }
 
 // Spin up the server
-app.listen(app.get('port'), function() {
-  console.log('running on port', app.get('port'))
+app.listen(app.get('port'), function () {
+  console.log('running on port', app.get('port'));
 });
