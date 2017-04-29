@@ -13,6 +13,7 @@ let inputPassword
 
 let ctr1 = 0
 let roommateMsg
+let billsMsg
 let numRoommates
 let toSend
 
@@ -77,7 +78,8 @@ app.post('/webhook/', function (req, res) {
                 let roommates = g.roommates                
                 numRoommates = Object.keys(roommates).length
                 roommateMsg = roommateMsg  + numRoommates + ' Roommates)'
-                //console.log('marker: ' + marker)
+                let bills = g.bills
+                billsMsg = 'Bills to be collectively shared total to $' + bills
                 roommates.forEach(function(element) {
                   getInformation(element.id)
                 })
@@ -336,7 +338,7 @@ function getInformation (sender) {
       roommateMsg = roommateMsg + '\n' + body.first_name + ' ' + body.last_name
       ctr1++
       if (ctr1 === numRoommates) {
-        sendTextMessageBackQR(toSend, roommateMsg)
+        sendTextMessageBackQR(toSend, roommateMsg + '\n' + billsMsg)
         ctr1 = 0
         marker = 0
       }
