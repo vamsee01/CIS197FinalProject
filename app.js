@@ -336,7 +336,7 @@ function getInformation (sender) {
       roommateMsg = roommateMsg + '\n' + body.first_name + ' ' + body.last_name
       ctr1++
       if (ctr1 === numRoommates) {
-        sendTextMessage(toSend, roommateMsg)
+        sendTextMessageBackQR(toSend, roommateMsg)
         ctr1 = 0
         marker = 0
       }
