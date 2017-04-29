@@ -135,6 +135,7 @@ groupSchema.statics.unsetGrocery = function (userId, number, cb) {
     if (error) {
       cb (error)
     } else {
+      console.log('unset')
       cb (null)
     }
   })
