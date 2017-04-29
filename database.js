@@ -31,9 +31,10 @@ groupSchema.pre('save', function (next) {
 })
 
 groupSchema.post('update', function (doc) {
+  var group = this
   console.log('here in update middleware')
-  console.log('doc: ' + doc)
-  console.log('doc[0] ' + doc[0])
+  console.log('group is ' + group)
+  console.log('bills is ' + group.bills)
   //console.log('bills is ' + doc.bills)
 })
 
