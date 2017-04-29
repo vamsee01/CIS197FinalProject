@@ -32,7 +32,9 @@ groupSchema.pre('save', function (next) {
 
 groupSchema.post('update', function (doc) {
   console.log('here in update middleware')
-  console.log('bills is ' + doc.bills)
+  console.log('doc: ' + doc)
+  console.log('doc[0] ' + doc[0])
+  //console.log('bills is ' + doc.bills)
 })
 
 groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
