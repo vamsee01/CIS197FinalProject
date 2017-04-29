@@ -61,6 +61,7 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'group_obligations') {
             //marker = 4
           } else if (payload === 'group_information') {
+            marker = -1
             Groups.getGroupInformation(sender, function (error, group) {
               if (error) {
                 console.log('Error getting group information: ', error)
@@ -74,7 +75,8 @@ app.post('/webhook/', function (req, res) {
                 console.log('marker: ' + marker)
 
                 roommates.forEach(function(element) {
-                  groupInfoMsg = groupInfoMsg + '\n' + element.id
+                  // groupInfoMsg = groupInfoMsg + '\n' + element.id
+                  getInformation(element.id)
                 })
 
                 console.log(groupInfoMsg)
@@ -330,8 +332,10 @@ function getInformation (sender) {
       console.log('Error obtaining profile information: ', error)
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
-    } else {
+    } else if (marker === 0) {
       checkUserID(sender, body)
+    } else {
+      groupInfoMsg = groupInfoMsg + '\n' + body.first_name + ' ' + body.last_name
     }
   })
 }
