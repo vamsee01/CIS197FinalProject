@@ -30,14 +30,6 @@ groupSchema.pre('save', function (next) {
   })
 })
 
-groupSchema.post('update', function (doc) {
-  var group = this
-  console.log('here in update middleware')
-  console.log('group is ' + group[0])
-  console.log('bills is ' + group[0].bills)
-  //console.log('bills is ' + doc.bills)
-})
-
 groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
   var newGroup = new this({name: groupName, password: password, roommates: [{id: userId}], bills: 0, groceries:[], chores: []});
   newGroup.save(cb)
