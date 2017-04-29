@@ -65,11 +65,10 @@ app.post('/webhook/', function (req, res) {
                 console.log('Error getting group information: ', error)
               } else {
                 let g = group[0]
-                let roommates = g.roommates
                 let name = g.name
+                let msg = 'Group Name: ' + name +',' + ' Roommates: '
+                let roommates = g.roommates                
                 let numRoommates = Object.keys(roommates).length
-
-                let msg = 'Group Name: ' + name +'\n' + 'Roommates: \n'
 
                 roommates.forEach(function(element) {
                   //console.log(element.id)
