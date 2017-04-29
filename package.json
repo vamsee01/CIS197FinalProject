@@ -21,5 +21,9 @@
     "express": "^4.15.2",
     "mongoose": "^4.9.4",
     "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1"
   }
 }

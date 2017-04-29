@@ -6,3 +6,5 @@ node_modules
 *.dat
 test.txt
 /config/*
+.eslintrc
+gulpfile.js
