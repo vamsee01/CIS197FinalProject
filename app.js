@@ -159,15 +159,12 @@ app.post('/webhook/', function (req, res) {
             marker = 0
             getInformation(sender)
           } else if (payload === 'add_chores') {
-            console.log('here3')
-            marker = 0
-            getInformation(sender)
+            marker = 7
           } else if (payload === 'remove_chores') {
             console.log('here4')
             marker = 0
             getInformation(sender)
           }
-
         } else {
           //^^^ make this else if (recipient === BOT_ID)
           if (marker === 0) {
@@ -242,6 +239,18 @@ app.post('/webhook/', function (req, res) {
               sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive or negative number only')
             } else {
               console.log('user wants to add/subtract ' + text + ' from bills')
+            }
+          } else if (marker === 7 && recipient === BOT_ID) {
+              Groups.addChore(sender, text, function (err) {
+                  if (err) {
+                    console.log('Error adding chore to database: ', err)
+                    sendTextMessageBackQR(sender, 'Could not add chore. Please try again.')
+                  } else {
+                    sendTextMessage(sender, 'Successfully added inputted chore!')
+                    marker = 0
+                    getInformation(sender)
+                  }
+              })
             }
           }
         }
