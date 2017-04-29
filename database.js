@@ -33,8 +33,8 @@ groupSchema.pre('save', function (next) {
 groupSchema.post('update', function (doc) {
   var group = this
   console.log('here in update middleware')
-  console.log('group is ' + group)
-  console.log('bills is ' + group.bills)
+  console.log('group is ' + group[0])
+  console.log('bills is ' + group[0].bills)
   //console.log('bills is ' + doc.bills)
 })
 
