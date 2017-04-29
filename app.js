@@ -219,7 +219,12 @@ app.post('/webhook/', function (req, res) {
               }
             })
           } else if (marker === 5 && recipient === BOT_ID) {
-            console.log('user wants to add/subtract ' + text + 'from bills')
+            let change = parseInt(text)
+            if isNan(change) {
+              sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive or negative number only')
+            } else {
+              console.log('user wants to add/subtract ' + text + 'from bills')
+            }
           }
         }
       }
