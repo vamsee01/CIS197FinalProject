@@ -63,7 +63,7 @@ app.post('/webhook/', function (req, res) {
         if (event.message.quick_reply) {
           //Handle a quick reply selection
           let payload = event.message.quick_reply.payload
-          
+
           if (payload === 'new_group') {
             sendTextMessageBackQR(sender, 'Please type the name of your desired roommate group')
             marker = 1
@@ -273,8 +273,15 @@ app.post('/webhook/', function (req, res) {
                   getInformation(sender)
                 } else {
                   console.log('unset grocery')
-                  marker = 0
-                  getInformation(sender)
+                  Groups.removeGrocery(sender, function (error) {
+                    if (error) {
+                      console.log('Error removing grocery: ', error)
+                    } else {
+                      console.log('remove grocery')
+                      marker = 0
+                      getInformation(sender)
+                    }
+                  })
                 }
               })
             }
