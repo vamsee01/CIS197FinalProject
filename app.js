@@ -369,9 +369,23 @@ function sendGroupInfoMsg (sender, message) {
   if (numGroceries === 0 && numChores === 0) {
     sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg)
   } else if (numChores === 0) {
-
-  } else if (numGroeceries === 0) {
-
+    groceries.forEach(function (element) {
+      groceriesMsg = groceriesMsg + '\n' + element.grocery
+      ctr2++
+      if (ctr2 === numGroceries) {
+        ctr2 = 0
+        sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg)
+      }
+    })
+  } else if (numGroceries === 0) {
+    chores.forEach(function (element) {
+        choresMsg = choresMsg + '\n' + element.chore
+        ctr3++
+        if (ctr3 === numChores) {
+          ctr3 = 0
+          sendTextMessageBackQR(sender, message + '\n' + groceriesMsg + '\n' + choresMsg)
+        }
+    })
   } else {
       groceries.forEach(function(element) {
       groceriesMsg = groceriesMsg + '\n' + element.grocery

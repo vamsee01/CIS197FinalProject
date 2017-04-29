@@ -31,7 +31,7 @@ groupSchema.pre('save', function (next) {
 })
 
 groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
-  var newGroup = new this({name: groupName, password: password, roommates: [{id: userId}], bills: 0, groceries:[], chores: []});
+  var newGroup = new this({name: groupName, password: password, roommates: [{id: userId}], bills: 0, groceries:[{grocery: 'fruits'}, {grocery: 'vegetables'}], chores: [{chore: 'clean up common room'}]});
   newGroup.save(cb)
 }
 
