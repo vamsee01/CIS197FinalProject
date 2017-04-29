@@ -65,12 +65,9 @@ app.post('/webhook/', function (req, res) {
                 console.log('Error getting group information: ', error)
               } else {
                 let g = group[0]
-
-                console.log('group name is ' + g['name'])
-                console.log('roommates are ' + g['roommates'])
-                //console.log(g1.name + ' ' + g1.roommmates)
-                //console.log('to String is ' + g.toString())
-                //console.log('name is ' + g.name + ' roommmates are ' + g.roommmates)
+                let roommates = g.roommates
+                console.log('group name is ' + g.name)
+                console.log('roommates are ' + roommates[0])
               }
             })
             //marker = 5
