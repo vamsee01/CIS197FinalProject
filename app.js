@@ -73,11 +73,13 @@ app.post('/webhook/', function (req, res) {
                 let numRoommates = Object.keys(roommates).length
                 roommateMsg = roommateMsg  + numRoommates + ' Roommates)'
                 //console.log('marker: ' + marker)
+                let ctr1 = 0
                 roommates.forEach(function(element) {
                   getInformation(element.id)
+                  ctr1++
                 })
 
-                sendTextMessage(sender, roommateMsg)
+                if (ctr1 === numRoommates) sendTextMessage(sender, roommateMsg)
                 //console.log(roommateMsg)
               }
             })
