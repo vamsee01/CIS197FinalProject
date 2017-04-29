@@ -66,13 +66,13 @@ app.post('/webhook/', function (req, res) {
               } else {
                 let g = group[0]
                 let name = g.name
-                let msg = 'Group Name: ' + name +',' + ' Roommates: '
+                let msg = 'Group Name: ' + name + ' '
                 let roommates = g.roommates                
                 let numRoommates = Object.keys(roommates).length
+                msg = msg  + numRoommates + ' Roommates: '
 
                 roommates.forEach(function(element) {
-                  //console.log(element.id)
-                  msg = msg + element.id
+                  msg = msg + '\n' + element.id
                 })
 
                 console.log(msg)
