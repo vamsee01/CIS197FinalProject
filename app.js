@@ -241,22 +241,23 @@ app.post('/webhook/', function (req, res) {
               console.log('user wants to add/subtract ' + text + ' from bills')
             }
           } else if (marker === 7 && recipient === BOT_ID) {
-              Groups.addChore(sender, text, function (err) {
-                  if (err) {
-                    console.log('Error adding chore to database: ', err)
-                    sendTextMessageBackQR(sender, 'Could not add chore. Please try again.')
-                  } else {
-                    sendTextMessage(sender, 'Successfully added inputted chore!')
-                    marker = 0
-                    getInformation(sender)
-                  }
-              })
-            }
+            // Groups.addChore(sender, text, function (err) {
+            //     if (err) {
+            //       console.log('Error adding chore to database: ', err)
+            //       sendTextMessageBackQR(sender, 'Could not add chore. Please try again.')
+            //     } else {
+            //       sendTextMessage(sender, 'Successfully added inputted chore!')
+            //       marker = 0
+            //       getInformation(sender)
+            //     }
+            // })
+            console.log('here')
           }
         }
       }
     }
-    res.sendStatus(200)
+  }
+  res.sendStatus(200)
 })
 
 const token = process.env.FB_PAGE_ACCESS_TOKEN
