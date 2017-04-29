@@ -45,7 +45,7 @@ groupSchema.statics.containsGroup = function (groupName, cb) {
 }
 
 groupSchema.statics.containsUser = function (userId, cb) {
-  this.find({roommates: {id: {$elemMatch: userId}}}, function (error, group) {
+  this.find({roommates: {$elemMatch: {id: userId}}}, function (error, group) {
     if (error) {
       cb(error, null)
     } else if (!group.length) {
@@ -84,7 +84,7 @@ groupSchema.statics.checkPassword = function (groupName, password, cb) {
 }
 
 groupSchema.statics.removeUser = function (userId, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {roommates: {$elemMatch : userId}}}, function (error) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {roommates: {id : {$elemMatch : userId}}}}, function (error) {
     if (error) {
       cb(error)
     } else {
