@@ -35,7 +35,7 @@ groupSchema.post('update', function (next) {
   console.log('here in update middleware')
   //if (!group.isModified('bills')) return next();
   if (group.bills < 0) group.bills = 0
-  next()
+  // next()
 })
 
 groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
