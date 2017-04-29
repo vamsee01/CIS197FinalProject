@@ -142,7 +142,7 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'bills') {
             console.log('chose bills')
             marker = 5
-            sendTextMessageBackQR('Enter a number you want to add or subtract to the collective group bills'
+            sendTextMessageBackQR(sender, 'Enter a number you want to add or subtract to the collective group bills'
               + '(i.e. \'4\' or \'-4\'). Reference \'Group Info\' to see the current amount.')
           } else if (payload === 'groceries') {
             console.log('chose groceries')
