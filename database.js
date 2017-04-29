@@ -91,7 +91,7 @@ groupSchema.statics.addGrocery = function(userId, newGrocery, cb) {
   })
 }
 
-groupSchema.static.updateBills = function(userId, change, cb) {
+groupSchema.statics.updateBills = function(userId, change, cb) {
   this.update({roommates: {$elemMatch: {id: userId}}}, {$add: {bills: change}}, function (error) {
     if (error) {
       cb(error)
