@@ -160,6 +160,7 @@ app.post('/webhook/', function (req, res) {
             getInformation(sender)
           } else if (payload === 'add_chores') {
             marker = 7
+            sendTextMessage(sender, 'Enter the chore you want to add')
           } else if (payload === 'remove_chores') {
             console.log('here4')
             marker = 0
@@ -241,17 +242,16 @@ app.post('/webhook/', function (req, res) {
               console.log('user wants to add/subtract ' + text + ' from bills')
             }
           } else if (marker === 7 && recipient === BOT_ID) {
-            // Groups.addChore(sender, text, function (err) {
-            //     if (err) {
-            //       console.log('Error adding chore to database: ', err)
-            //       sendTextMessageBackQR(sender, 'Could not add chore. Please try again.')
-            //     } else {
-            //       sendTextMessage(sender, 'Successfully added inputted chore!')
-            //       marker = 0
-            //       getInformation(sender)
-            //     }
-            // })
-            console.log('here')
+            Groups.addChore(sender, text, function (err) {
+                if (err) {
+                  console.log('Error adding chore to database: ', err)
+                  sendTextMessageBackQR(sender, 'Could not add chore. Please try again.')
+                } else {
+                  sendTextMessage(sender, 'Successfully added inputted chore!')
+                  marker = 0
+                  getInformation(sender)
+                }
+            })
           }
         }
       }
