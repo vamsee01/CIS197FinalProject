@@ -63,10 +63,10 @@ app.post('/webhook/', function (req, res) {
           } else if (payload === 'join_group') {
             sendTextMessageBackQR(sender, 'Please type the name of group you want to join')
             marker = 3
-          } else if (payload === 'group_obligations') {
+          } else if (payload === 'update_info') {
             //marker = 4
-          } else if (payload === 'group_information') {
-            marker = -1
+          } else if (payload === 'group_info') {
+            marker = 5
             toSend = sender
             Groups.getGroupInformation(sender, function (error, group) {
               if (error) {
@@ -85,7 +85,6 @@ app.post('/webhook/', function (req, res) {
                 })
               }
             })
-            //marker = 5
           } else if (payload === 'yes') {
             Groups.removeUser(sender, function (error) {
               if (error) {
@@ -275,13 +274,13 @@ function checkUserID (sender, body) {
       [
         {
           content_type: 'text',
-          title: 'Update Obligations',
-          payload: 'group_obligations'
+          title: 'Update Info',
+          payload: 'update_info'
         },
         {
           content_type: 'text',
           title: 'Group Info',
-          payload: 'group_information'
+          payload: 'group_info'
         },
         {
           content_type: 'text',
