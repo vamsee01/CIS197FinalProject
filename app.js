@@ -266,7 +266,7 @@ app.post('/webhook/', function (req, res) {
               marker = 11
               sendTextMessageBackQR(sender, 'Invalid input. Please enter a positive number only')
             } else {
-              Groups.unsetGrocery(userId, remove, function (error) {
+              Groups.unsetGrocery(sender, remove, function (error) {
                 if (error) {
                   console.log('Error unsetting grocery: ', error)
                   marker = 0
