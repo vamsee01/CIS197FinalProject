@@ -126,34 +126,23 @@ groupSchema.statics.removeUser = function (userId, cb) {
   })
 }
 
-groupSchema.statics.unsetGrocery = function (userId, number, cb) {
-  //let n = number - 1
-  let toUnset = 'groceries.' + (number - 1)
-  console.log('toUnset is ' + toUnset)
+// groupSchema.statics.unsetGrocery = function (userId, number, cb) {
+//   //let n = number - 1
+//   let toUnset = 'groceries.' + (number - 1)
+//   console.log('toUnset is ' + toUnset)
 
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$unset: {toUnset: 1}}, function (error) {
-    if (error) {
-      cb (error)
-    } else {
-      console.log('unset')
-      cb (null)
-    }
-  })
-}
+//   this.update({roommates: {$elemMatch: {id: userId}}}, {$unset: {('groceries.' + (number - 1)): 1}}, function (error) {
+//     if (error) {
+//       cb (error)
+//     } else {
+//       console.log('unset')
+//       cb (null)
+//     }
+//   })
+// }
 
-groupSchema.statics.removeGrocery = function (userId, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {groceries: null}}, function (error) {
-    if (error) {
-      cb (error)
-    } else {
-      cb (null)
-    }
-  })
-}
-
-groupSchema.statics.unsetChore = function (userId, number, cb) {
-  let toUnset = 'chores.' + (number - 1)
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$unset: {toUnset: 1}}, function (error) {
+groupSchema.statics.removeGrocery = function (userId, grocery, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {groceries: grocery}}, function (error) {
     if (error) {
       cb (error)
     } else {
@@ -162,8 +151,19 @@ groupSchema.statics.unsetChore = function (userId, number, cb) {
   })
 }
 
-groupSchema.statics.removeGrocery = function (userId, cb) {
-  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {chores: null}}, function (error) {
+// groupSchema.statics.unsetChore = function (userId, number, cb) {
+//   let toUnset = 'chores.' + (number - 1)
+//   this.update({roommates: {$elemMatch: {id: userId}}}, {$unset: {toUnset: 1}}, function (error) {
+//     if (error) {
+//       cb (error)
+//     } else {
+//       cb (null)
+//     }
+//   })
+// }
+
+groupSchema.statics.removeChore = function (userId, chore, cb) {
+  this.update({roommates: {$elemMatch: {id: userId}}}, {$pull: {chores: chore}}, function (error) {
     if (error) {
       cb (error)
     } else {
