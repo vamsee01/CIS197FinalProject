@@ -460,11 +460,6 @@ function checkUserID (sender, body) {
           content_type: 'text',
           title: 'Leave group',
           payload: 'leave_group'
-        },
-        {
-          content_type: 'text',
-          title: 'Back',
-          payload: 'back'
         }
       ]
       messageQR(sender, textData, quickRepliesData)
