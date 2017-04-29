@@ -97,6 +97,7 @@ groupSchema.statics.removeUser = function (userId, cb) {
 groupSchema.statics.getGroupInformation = function (userId, cb) {
   var query = this.find({roommates: {$elemMatch: {id: userId}}});
   query.select('name roommates')
+  query.lean(true);
   query.exec(function (error, group) {
     if (error) {
       cb(error, null)
