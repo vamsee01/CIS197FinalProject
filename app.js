@@ -6,6 +6,8 @@ const request = require('request')
 const app = express()
 
 const Groups = require('./database')
+const token = process.env.FB_PAGE_ACCESS_TOKEN
+const BOT_ID = '792706144218311'
 
 let marker = 0
 let groupName
@@ -25,8 +27,6 @@ let numChores
 let numGroceries
 let numRoommates
 let toSend
-
-const BOT_ID = '792706144218311'
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -166,7 +166,6 @@ app.post('/webhook/', function (req, res) {
             getInformation(sender)
           }
         } else {
-          //^^^ make this else if (recipient === BOT_ID)
           if (marker === 0) {
             console.log('when marker is 0, reciepient=== BOT_ID? ->' + (recipient === BOT_ID))
             getInformation(sender)
@@ -244,7 +243,7 @@ app.post('/webhook/', function (req, res) {
                   console.log('Error changing bills value in database: ', error)
                   sendTextMessageBackQR(sender, 'Could not complete computation. Please try again.')
                 } else {
-                  sendTextMessage(sender, 'Successfully changed bills value!')
+                  sendTextMessage(sender, 'Successfully changed value!')
                   marker = 0
                   getInformation(sender)
                 }
@@ -278,8 +277,6 @@ app.post('/webhook/', function (req, res) {
     }
   res.sendStatus(200)
 })
-
-const token = process.env.FB_PAGE_ACCESS_TOKEN
 
 function sendTextMessageAddRemoveQR(sender, type) {
   console.log('Type is ' + type)

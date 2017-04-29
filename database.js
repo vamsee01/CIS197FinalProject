@@ -17,8 +17,6 @@ var groupSchema = new Schema({
 groupSchema.pre('save', function (next) {
   var group = this
 
-  if (group.bills < 0) group.bills = 0;
-
   if (!group.isModified('password')) return next();
 
   bcrypt.genSalt(10, function( err, salt) {
@@ -30,6 +28,12 @@ groupSchema.pre('save', function (next) {
       next()
     })
   })
+})
+
+groupSchema.pre('update', function (next) {
+  var group = this
+  if (group.bills < 0) group.bills = 0
+  next()
 })
 
 groupSchema.statics.addGroup = function (groupName, password, userId, cb) {
