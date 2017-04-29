@@ -304,6 +304,11 @@ function sendTextMessageAddRemoveQR(sender, type) {
       content_type: 'text',
       title: 'Remove ' + type,
       payload: 'remove_' + type
+    },
+    {
+      content_type: 'text',
+      title: 'Go back to main menu',
+      payload: 'back'
     }
   ]
   messageQR(sender, textData, quickRepliesData)
