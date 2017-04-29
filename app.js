@@ -10,7 +10,11 @@ const Groups = require('./database')
 let marker = 0
 let groupName
 let inputPassword
+
+let ctr1 = 0
 let roommateMsg
+let numRoommates
+let toSend
 
 const BOT_ID = '792706144218311'
 
@@ -62,6 +66,7 @@ app.post('/webhook/', function (req, res) {
             //marker = 4
           } else if (payload === 'group_information') {
             marker = -1
+            toSend = sender
             Groups.getGroupInformation(sender, function (error, group) {
               if (error) {
                 console.log('Error getting group information: ', error)
@@ -70,16 +75,13 @@ app.post('/webhook/', function (req, res) {
                 let name = g.name
                 roommateMsg = 'Group Name: ' + name + ' ('
                 let roommates = g.roommates                
-                let numRoommates = Object.keys(roommates).length
+                numRoommates = Object.keys(roommates).length
                 roommateMsg = roommateMsg  + numRoommates + ' Roommates)'
                 //console.log('marker: ' + marker)
-                let ctr1 = 0
                 roommates.forEach(function(element) {
                   getInformation(element.id)
-                  ctr1++
                 })
 
-                if (ctr1 === numRoommates) sendTextMessage(sender, roommateMsg)
                 //console.log(roommateMsg)
               }
             })
@@ -332,6 +334,10 @@ function getInformation (sender) {
       checkUserID(sender, body)
     } else {
       roommateMsg = roommateMsg + '\n' + body.first_name + ' ' + body.last_name
+      ctr1++
+      if (ctr1 === numRoommates) {
+        sendTextMessage(toSend, roommateMsg)
+      }
     }
   })
 }
